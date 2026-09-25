@@ -1,0 +1,17 @@
+# Card metadata consumed by https://designmolecule.com
+name: BinLevel
+slug: binlevel
+area: Smart Cities
+status: concept          # concept | design | prototype | tested | released
+shortlisted: false
+pitch: >-
+  A fill-level sensor for public and communal bins that reports when bins need emptying so collection routes serve full bins, not empty ones.
+problem: >-
+  Fixed collection schedules empty half-full bins while others overflow.
+budget_usd: 60
+difficulty: 1  # 1 easiest, 5 hardest
+hero_image: media/hero.png
+licenses:
+  hardware: CERN-OHL-S-2.0
+  software: MIT
+tags: [smart-cities, open-hardware, cern-ohl-s]
