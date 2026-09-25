@@ -1,6 +1,21 @@
-# BinLevel: design precis
+---
+doc_id: BNL-PRC-001
+title: BinLevel design precis
+project: BinLevel
+doc_type: Design precis
+version: "0.1"
+status: Draft
+date: '2026-09-25'
+author: Amish Chadha
+license: CERN-OHL-S-2.0
+revisions:
+- version: "0.1"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: Initial scaffold
+---
 
-> Status: concept. This precis is a working draft and will be expanded before prototyping.
+# BinLevel design precis
 
 ## Summary
 
