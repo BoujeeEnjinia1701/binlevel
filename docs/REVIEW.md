@@ -35,6 +35,8 @@ Requirements not met or at risk:
 
 ### Proposed, awaiting Amish
 
+Update 2026-09-25: items 1 to 7 are "Decided by Amish, 2026-09-25: go with recommendation" (BNL-DDR-001, BNL-DDR-002). Items 8 and 9 had no recommendation and remain "Proposed, awaiting Amish".
+
 1. **First target container.** Options: (a) 660 to 1,100 L four-wheel communal containers; (b) street litter bins of 50 to 240 L; (c) both from the start. Recommendation: (a), because each container serves many households and a lift is costly; (b) follows with the same electronics and a smaller bracket.
 2. **Sensing method.** Options: (a) ultrasonic plus near-range ToF (about $5 more); (b) ultrasonic only, with any reading inside the blind zone reported as "full or blocked"; (c) ToF only (cheapest and smallest, but sensitive to a fouled window). Recommendation: (a), because the default 80 % threshold on an 1,100 L container lies inside the ultrasonic blind zone.
 3. **Cell size.** Options: (a) C-size Li-SOCl2 (about $9, about 18 years worst case); (b) AA-size (about $4, about 7 years worst case). Recommendation: (a) for margin in cold climates and a 10-year service interval; revisit (b) for litter bins.
@@ -96,17 +98,19 @@ Changes to the TRL 2 concept that follow from the calculations: payload 12 to 11
 
 ### Decisions recorded (BNL-DDR-001)
 
-Adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review: D1 660 to 1,100 L communal containers first; D2 ultrasonic plus ToF; D3 C-size Li-SOCl2 cell; D4 LoRaWAN on an STM32WL-class module; D5 reuse FieldNode's radio family, payload conventions and decoder, with TwinKit as reference gateway; D6 80 % threshold and 1 h interval (2 h at SF11 and SF12); D7 heat alert at 70 °C or 15 K in 15 min, maintenance aid only; D8 lid underside mounting; D9 stock IP67 enclosure; D10 no change to budget, pitch or problem (none was recommended).
+Decided by Amish, 2026-09-25: go with recommendation (previously adopted for TRL 3, open for his review): D1 660 to 1,100 L communal containers first; D2 ultrasonic plus ToF; D3 C-size Li-SOCl2 cell; D4 LoRaWAN on an STM32WL-class module; D5 reuse FieldNode's radio family, payload conventions and decoder, with TwinKit as reference gateway; D6 80 % threshold and 1 h interval (2 h at SF11 and SF12); D7 heat alert at 70 °C or 15 K in 15 min, maintenance aid only; D8 lid underside mounting; D9 stock IP67 enclosure; D10 no change to budget, pitch or problem (none was recommended).
 
 ### Still awaiting Amish
 
+Update 2026-09-25: items 3 to 7 are "Decided by Amish, 2026-09-25: go with recommendation" (BNL-DDR-002). O1 and O2 remain "Proposed, awaiting Amish".
+
 1. **O1, steel containers.** (a) External lid antenna variant (about $8, total $63.00, over budget) or (b) exclude steel containers from the first pilot. No recommendation was made.
 2. **O2, first partner and region** for co-design and a pilot; also sets the radio plan. No preference stated.
-3. **New, R16 mass.** Options: (a) 2 mm aluminium bracket, unit about 334 g; (b) relax R16 to 450 g and keep stainless; (c) perforated stainless bracket. Recommendation: (a). Not applied.
-4. **New, R6 upper limit.** Recommendation: raise to 70 °C to match dark lids in hot sun, and name the RAK3172-T for cold sites. Not applied.
-5. **New, R9 rate-of-rise rule.** Recommendation: count the 15 K rise only when the temperature is already above 50 °C, keeping the 70 °C absolute alert. Not applied.
-6. **New, payload of 11 bytes and 5 min temperature reads.** Applied to the design basis because R10 (US915) and R9 (15 min) require them; open for review.
-7. Suggestion only: SF11 hourly uses 21.4 s a day, inside TTN's 30 s, so the 2 h stretch could apply at SF12 only.
+3. **New, R16 mass.** Options: (a) 2 mm aluminium bracket, unit about 334 g; (b) relax R16 to 450 g and keep stainless; (c) perforated stainless bracket. Recommendation: (a). Decided by Amish, 2026-09-25: go with recommendation; applied.
+4. **New, R6 upper limit.** Recommendation: raise to 70 °C to match dark lids in hot sun, and name the RAK3172-T for cold sites. Decided by Amish, 2026-09-25: go with recommendation; applied.
+5. **New, R9 rate-of-rise rule.** Recommendation: count the 15 K rise only when the temperature is already above 50 °C, keeping the 70 °C absolute alert. Decided by Amish, 2026-09-25: go with recommendation; applied.
+6. **New, payload of 11 bytes and 5 min temperature reads.** Applied to the design basis because R10 (US915) and R9 (15 min) require them. Decided by Amish, 2026-09-25: go with recommendation.
+7. Suggestion only: SF11 hourly uses 21.4 s a day, inside TTN's 30 s, so the 2 h stretch could apply at SF12 only. Decided by Amish, 2026-09-25: go with recommendation; applied.
 
 ### Cross-repo consistency
 
@@ -129,3 +133,58 @@ Adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for 
 ### Recommended next step
 
 TRL 4 is on hold by Amish's instruction; this repo stops at TRL 3. Amish's review is needed on D1 to D10, on O1 and O2, and on new items 3 to 6 above. For the record only, TRL 4 would need: a bench build of the sensor unit; a lab test report (TST, `environment: lab`) covering ranging on real waste in a container against dip readings, sleep and uplink current, cold-start at -20 °C, link loss inside HDPE and steel containers, lid temperature in sun, and shake and drop of the fixing; and build log entries. None of this has been started.
+
+## Session 2026-09-25: recommendations accepted
+
+Amish wrote on 2026-09-25: "i accept all your recommendations, go with them across all repos." Every item with a recommendation is now "Decided by Amish, 2026-09-25: go with recommendation", recorded in `docs/decisions/0002-recommendations-accepted.md` (BNL-DDR-002 v0.1). TRL stays at 3.
+
+### Decisions applied and what changed
+
+| Item | Decision | Before | After |
+| --- | --- | --- | --- |
+| D1 to D10 (BNL-DDR-001) | As recommended | Adopted for TRL 3, open for review | Decided; BNL-DDR-001 to v0.2; no design change |
+| R16 mass (new item 3) | (a) 2 mm 5052-class aluminium bracket | 1.5 mm stainless, bracket 183 g, unit 435 g, R16 not met | 2.0 mm aluminium, bracket 83 g, unit 334 g, R16 met; envelope 61.0 to 61.5 mm below the lid; shock load 85 to 66 N |
+| R6 upper limit (new item 4) | Raise to 70 °C; RAK3172-T for cold sites | -20 to +60 °C | -20 to +70 °C; dark lid 67 °C now inside the limit (3 K margin); still at risk on the transducer rating |
+| R9 rate rule (new item 5) | Count the 15 K rise only above 50 °C; keep 70 °C | Sun step raises the unit 15.4 K, false alarm, at risk | Unit about 43 °C under cloud (below the gate); worst rise above the gate 10.9 K; met on paper |
+| Payload and reads (new item 6) | Keep 11 bytes and 5 min reads | Applied, open for review | Decided |
+| Interval stretch (suggestion 7) | 2 h at SF12 only | 2 h at SF11 and SF12 | 1 h to SF11 (21.4 s a day), 2 h at SF12 (20.8 s a day); worst-case life unchanged at 16.3 years |
+| Budget | No change recommended | $60 | $60; parts $55.00 |
+
+Files changed: `cad/src/model.py` (plate 2.0 mm, `plate_mat` aluminium) with STEP and STL re-exported; `bom/bom.csv` item 2 and `bom/bom-notes.md`; `cad/src/sheets.py` and BNL-DWG-001 at Rev P2; `cad/src/concept_media.py` key figures and all media regenerated; `docs/04-calcs/sizing.py` (R6 range, new H3 and H4, material-aware mass) and BNL-CAL-001 v0.2; BNL-REQ-001, BNL-PRC-001 and BNL-PRB-001 v0.4; README (Concept, Key components, decision links, new "What sparked the idea"); `project.yaml` evidence list (budget, pitch and problem unchanged).
+
+### Requirement status (BNL-CAL-001 v0.2)
+
+| Status | Requirements |
+| --- | --- |
+| **Not met** | R5 (stock IP67, not IP69K); R10 in steel containers (about 0.35 km at SF12 with the internal antenna) |
+| At risk | R2 accuracy on real waste; R6 climate range (3 K margin at 70 °C; transducer rating unconfirmed) |
+| Not verifiable at TRL 3 | R7 shock and loosening; R12 installation time |
+| Met | R1, R3, R4, R9, R14, R16 by calculation; R8, R11, R13, R15 by design |
+
+### Still awaiting Amish
+
+1. **O1, steel containers:** external lid antenna ($63.00, over budget) or exclude steel containers from the first pilot. No recommendation.
+2. **O2, first partner and region** for co-design and a pilot (sets EU868, US915 or IN865). No preference stated.
+
+### Cross-repo actions
+
+- **FieldNode:** its 20-byte payload exceeds the 11-byte US915 DR0 limit, and its interval stretch starts at SF10. Raise with FieldNode so the shared payload conventions and decoder (D5) fit US915 DR0. FieldNode not edited.
+- Kit (suggestion only): the cutaway cutter centers on z = 0, and the hero note ends "for scale" after the beam cone. Not edited.
+
+### Other changes this session
+
+- README "What sparked the idea" rewritten: the starting point is now Philadelphia's 2009 BigBelly rollout and the City Controller's July 2010 report (collections averaged about 10 a week against a promised five; about $3,700 per unit), cited to the US EPA and NBC10 Philadelphia. The earlier text about a review of the lab's research areas was removed.
+- All PDFs, drawings and media regenerated with the designmolecule.com footer.
+
+### Notes and suggestions
+
+- Stainless bolts through an aluminium plate outdoors invite galvanic corrosion around the holes; an anodized plate or insulating washers should be considered. Not applied.
+- The gated rate rule means a fire starting from a cool bin is reported only at 70 °C or once above 50 °C; the alert remains a maintenance aid, never fire detection.
+
+### Safety
+
+Unchanged: the Li-SOCl2 cell must never be charged, shorted or crushed and must be fused, strapped and recycled; bins hold sharps and biological waste; hot dark lids (about 67 °C); keep clear of truck lifting gear; the heat alert is not fire detection.
+
+### TRL 4
+
+TRL 4 remains on hold by Amish's instruction. No build, test, PCB, firmware or purchasing work was started.

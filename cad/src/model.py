@@ -1,10 +1,10 @@
-"""BinLevel parametric model (build123d), TRL 3, massing-plus level of detail.
+"""BinLevel parametric model (build123d), TRL 3, massing-plus level of detail (DDR-002 update).
 
 Run from the repo root:  python cad/src/model.py
 Exports STEP and STL into cad/step and cad/stl:
     binlevel-assembly.step / .stl   sensor unit bolted under a patch of the container lid
     sensor-unit.step / .stl         the nine BOM parts only (no lid)
-    bracket.step / .stl             stainless bracket plate with end tabs (BOM item 2, bolts excluded)
+    bracket.step / .stl             aluminium bracket plate with end tabs (BOM item 2, bolts excluded)
 
 Axes and origin: the bottom face of the enclosure is z = 0, Z is up, X runs along the
 enclosure length (transducer on -X, ToF window on +X) and Y across it. The lid underside is
@@ -24,8 +24,9 @@ from pathlib import Path
 PARAMS = {
     # 1 enclosure: stock IP67 ABS or PC box (outer), wall, cover split height above the bottom
     "enc": (115.0, 65.0, 45.0), "enc_wall": 2.5, "split_z": 15.0,
-    # 2 bracket: stainless plate against the lid underside, two end tabs, four M6 bolts
-    "plate": (150.0, 80.0), "plate_t": 1.5, "tab": (60.0, 30.0),
+    # 2 bracket: aluminium (5052 class) plate against the lid underside, two end tabs, four M6
+    # stainless bolts. 2.0 mm aluminium replaces 1.5 mm stainless (BNL-DDR-002, R16 mass)
+    "plate": (150.0, 80.0), "plate_t": 2.0, "plate_mat": "al", "tab": (60.0, 30.0),
     "bolt_pitch": (130.0, 60.0), "bolt_d": 6.0, "bolt_len": 40.0, "head_d": 10.5, "head_h": 3.3,
     # 3 ultrasonic transducer (JSN-SR04T class): position on X, body diameter, protrusion below the box
     "us_x": -35.0, "us_d": 24.0, "us_len": 24.0, "us_protrude": 14.5, "us_hole_d": 25.0,
@@ -117,7 +118,7 @@ def build_parts(p=PARAMS):
     gasket = Pos(0, 0, p["split_z"]) * (Box(ew + 1, ed + 1, 2) - Box(ew - 5, ed - 5, 3))
     return [
         (1, "Enclosure, IP67 ABS or PC", enc),
-        (2, "Stainless bracket and tamper bolts", bracket),
+        (2, "Aluminium bracket and tamper bolts", bracket),
         (3, "Ultrasonic transducer, sealed", transducer),
         (4, "Near-range ToF sensor", tof),
         (5, "LoRaWAN module, STM32WL class", module),

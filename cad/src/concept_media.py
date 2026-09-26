@@ -71,13 +71,13 @@ context.append(Part("teal cone: ultrasonic beam, illustrative", beam, "#5EEAD4")
 render_all(
     parts, project="BinLevel", title="Lid-mounted fill-level sensor concept", dwg_no="BNL-DWG-010",
     key_figures=["Ultrasonic from 0.25 m, ToF to 0.4 m; 80 % fill is 0.20 m below the face",
-                 "Reading every 15 min; uplink every 1 h (2 h at SF11 to SF12), or at once on 80 %",
+                 "Reading every 15 min; uplink every 1 h (2 h at SF12), or at once on 80 %",
                  "LoRaWAN Class A, 11-byte payload; fill, temperature, tilt, battery only",
                  "Li-SOCl2 C cell: 16 years worst case (SF12) on paper; 10-year design life",
-                 "About 435 g and $55 in parts (BNL-CAL-001)"],
+                 "About 334 g (2 mm aluminium bracket) and $55 in parts (BNL-CAL-001)"],
     scale_figure=False, context=context,
     flow={"title": "data flow (estimates; fill level only, no images or audio)", "unit": "",
           "stages": [("Waste surface", "0 to 1.01 m below face"), ("Ranging", "echo + ToF, 15 min"),
-                     ("On-node fill %", "median of 5 pings"), ("LoRaWAN uplink", "11 B, 1 to 2 h or 80 %"),
+                     ("On-node fill %", "median of 5 pings"), ("LoRaWAN uplink", "11 B, 1 h (2 h at SF12) or 80 %"),
                      ("Gateway and server", "TwinKit or TTN"), ("Route plan", "serve full bins first")]},
 )

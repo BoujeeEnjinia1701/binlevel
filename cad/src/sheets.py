@@ -1,4 +1,4 @@
-"""BinLevel general arrangement sheet BNL-DWG-001, Rev P1 (TRL 3).
+"""BinLevel general arrangement sheet BNL-DWG-001, Rev P2 (TRL 3).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/BNL-DWG-001.svg, .pdf and .png from the parametric model in
@@ -95,10 +95,11 @@ def main():
     views = safe_project_views(asm, work)
     views["iso"] = safe_project_views(assembly(with_lid=False), work / "below", iso_below=True)["iso"]
     bb = asm.bounding_box()
-    s = Sheet(project="BinLevel", title="General arrangement, sensor unit under lid", dwg_no="BNL-DWG-001", rev="P1",
+    s = Sheet(project="BinLevel", title="General arrangement, sensor unit under lid", dwg_no="BNL-DWG-001", rev="P2",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
-              material="ABS or PC box; stainless bracket; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
-              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC")])
+              material="ABS or PC box; 5052 aluminium bracket; stainless bolts; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
+              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
+                         ("P2", "2 mm aluminium bracket; mass note (DDR-002)", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -153,13 +154,13 @@ def main():
     s.add_svg(views["iso"], 276, 32, 140, 100, label="Isometric view", sublabel="From below, lid omitted; not to scale")
     s.add_notes("Main dimensions and interfaces (mm)", [
         f"Enclosure IP67 {ew:.0f} x {ed:.0f} x {eh:.0f}, wall {P['enc_wall']}; cover split {P['split_z']:.0f} above base",
-        f"Bracket {pw:.0f} x {pd:.0f} x {P['plate_t']} stainless, end tabs {P['tab'][0]:.0f} x {P['tab'][1]:.0f}",
+        f"Bracket {pw:.0f} x {pd:.0f} x {P['plate_t']} 5052 aluminium, end tabs {P['tab'][0]:.0f} x {P['tab'][1]:.0f}",
         f"4 x M6 x {P['bolt_len']:.0f} tamper bolts on {bpx:.0f} x {bpy:.0f}; 18 washers; lid {P['lid_t']:.0f} HDPE",
         f"Envelope below lid {D['footprint'][0]:.0f} x {D['footprint'][1]:.0f} x {D['below_lid']:.1f} (R16: 160 x 90 x 100)",
         f"Transducer {P['us_d']:.0f} dia at X {P['us_x']:.0f}, face {P['us_protrude']} below box; hole {P['us_hole_d']:.0f}",
         f"ToF window {P['win_d']:.0f} dia at X +{P['tof_x']:.0f}; C cell {P['cell_d']} x {P['cell_len']:.0f} strapped",
         f"1,100 L container: face to floor {D['face_to_floor']:,.0f}; mount at lid center",
-        "Mass about 435 g with 1.5 mm stainless (BNL-CAL-001, I1)",
+        "Mass about 334 g with 2 mm aluminium (BNL-CAL-001 v0.2, I1)",
         "Third-angle; front view from -Y; enclosure base at Z = 0",
     ], x=276, y=158, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "BNL-DWG-001")

@@ -1,4 +1,4 @@
-"""BinLevel sizing calculations, BNL-CAL-001 v0.1 (TRL 3).
+"""BinLevel sizing calculations, BNL-CAL-001 v0.2 (TRL 3, DDR-002 update).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Prints every number quoted in docs/04-calcs/01-sizing.md. Each line carries a tag such as
@@ -31,7 +31,7 @@ TOF_MAX = 0.40             # m, range used for the ToF sensor (short-distance mo
 TOF_FOV = 27.0             # deg, VL53L1X typical full field of view (ST product page)
 F_US = 40e3                # Hz
 T_CAL = 20.0               # degC, calibration temperature
-T_RANGE = (-20.0, 60.0)    # degC, R6 range
+T_RANGE = (-20.0, 70.0)    # degC, R6 range (upper limit raised from 60 degC, DDR-002)
 DT_AIR = 5.0               # K, error between the on-board sensor and the air column (assumed)
 TOF_ERR = 0.020            # m, ToF error including the window (assumed)
 TIMER_RES = 1e-6           # s, echo timer resolution
@@ -87,6 +87,9 @@ LID_RHO_CP = 950 * 1900.0  # J/m3K HDPE
 UNIT_C = 400.0             # J/K unit heat capacity (about 0.4 kg at 1,000 J/kgK)
 UNIT_G = 0.75              # W/K unit coupling to the lid (bracket contact plus air)
 SUN_STEP = 800.0           # W/m2, cloud clears
+G_CLOUD = 100.0            # W/m2, diffuse light under cloud before the sun breaks through (assumed)
+RATE_GATE = 50.0           # degC, the 15 K rate-of-rise rule counts only above this (DDR-002)
+RATE_K, ABS_ALERT = 15.0, 70.0
 
 # mechanics
 SHOCK_G = 20.0             # peak shock when the bin hits the lifter stop (assumed)
@@ -115,7 +118,7 @@ def sound(t):
     return 331.3 * math.sqrt(1 + t / 273.15)
 
 
-print("BinLevel sizing, BNL-CAL-001 v0.1\n")
+print("BinLevel sizing, BNL-CAL-001 v0.2\n")
 
 # ------------------------------------------------------------------ A. measurement geometry
 print("A. Measurement geometry (R1)")
@@ -218,7 +221,8 @@ ta10 = airtime(PAYLOAD + OVERHEAD, 10)
 tag("E3", f"US915 SF10 airtime {ta10 * 1000:.0f} ms against the {DWELL * 1000:.0f} ms dwell limit")
 ta11 = airtime(PAYLOAD + OVERHEAD, 11)
 tag("E4", f"SF11 hourly would use {ta11 * (24 + ALERTS):.1f} s/day, SF12 hourly {ta12 * (24 + ALERTS):.1f} s/day, against TTN's {TTN_S:.0f} s: "
-          f"the 2 h interval at SF11 and SF12 keeps SF12 at {ta12 * (12 + ALERTS):.1f} s/day")
+          f"so the routine interval stays 1 h up to SF11 and stretches to 2 h at SF12 only (DDR-002), "
+          f"keeping SF12 at {ta12 * (12 + ALERTS):.1f} s/day")
 
 # ------------------------------------------------------------------ F. link budget
 print("\nF. Link budget (R10)")
@@ -271,21 +275,44 @@ for _ in range(int(15 * 60 / dt)):
 tag("H2", f"lid time constant {tau_lid / 60:.1f} min, unit {tau_unit / 60:.1f} min; when {SUN_STEP:.0f} W/m2 sun breaks "
           f"through, a dark lid rises {dT:.0f} K and the unit {t_unit:.1f} K within 15 min (R9 rate trigger 15 K)")
 
+
+
+def unit_rise(step):
+    """Unit temperature rise within 15 min after a sun step of `step` W/m2 on a dark lid."""
+    target = ALPHA["dark lid (0.90)"] * step / (H_OUT + H_IN)
+    tl, tu = 0.0, 0.0
+    for _ in range(int(15 * 60 / dt)):
+        tl += (target - tl) / tau_lid * dt
+        tu += (tl - tu) / tau_unit * dt
+    return tu
+
+
+t_cloud = T_AMB_HOT + ALPHA["dark lid (0.90)"] * G_CLOUD / (H_OUT + H_IN)
+tag("H3", f"gated rate rule (count the {RATE_K:.0f} K rise only above {RATE_GATE:.0f} degC): under cloud ({G_CLOUD:.0f} W/m2) the unit "
+          f"starts at about {t_cloud:.0f} degC, below the gate, so the sun step does not trigger; the steady dark lid "
+          f"(about {T_AMB_HOT + ALPHA['dark lid (0.90)'] * G_SUN / (H_OUT + H_IN):.0f} degC) stays below the {ABS_ALERT:.0f} degC absolute alert")
+g_gate = (RATE_GATE - T_AMB_HOT) * (H_OUT + H_IN) / ALPHA["dark lid (0.90)"]
+rise_gate = unit_rise(G_SUN - g_gate)
+tag("H4", f"worst case above the gate: a unit already at {RATE_GATE:.0f} degC (sun {g_gate:.0f} W/m2) that then sees full "
+          f"{G_SUN:.0f} W/m2 sun rises {rise_gate:.1f} K in 15 min, "
+          f"{'below' if rise_gate < RATE_K else 'ABOVE'} the {RATE_K:.0f} K trigger")
+
 parts, bplate = build_parts(P)
 vol = {n: s.volume / 1000 for _, n, s in parts}                   # cm3
 # ------------------------------------------------------------------ I. mass and size
 print("\nI. Mass and size (R16)")
 m_enc = vol["Enclosure, IP67 ABS or PC"] * RHO["abs"]
-m_brk = bplate.volume / 1000 * RHO["steel"]
+mat = P.get("plate_mat", "steel")
+mat_name = {"al": "5052-class aluminium", "steel": "stainless"}[mat]
+m_brk = bplate.volume / 1000 * RHO[mat]
 m_pcb = vol["Carrier PCB with accelerometer"] * RHO["fr4"]
 m_total = m_enc + m_brk + m_pcb + sum(BOUGHT.values())
-tag("I1", f"enclosure {m_enc:.0f} g; bracket plate and tabs ({P['plate_t']} mm stainless) {m_brk:.0f} g; PCB {m_pcb:.0f} g; "
+tag("I1", f"enclosure {m_enc:.0f} g; bracket plate and tabs ({P['plate_t']} mm {mat_name}) {m_brk:.0f} g; PCB {m_pcb:.0f} g; "
           f"bought-in parts {sum(BOUGHT.values()):.0f} g; total {m_total:.0f} g (R16: 400 g)")
-for t in (2.0, 3.0):
-    m_alt = m_brk * t / P["plate_t"]
-    tag("I2", f"with a {t} mm stainless bracket the bracket is {m_alt:.0f} g and the unit {m_total - m_brk + m_alt:.0f} g")
-m_al = bplate.volume / 1000 * RHO["al"] * 2.0 / P["plate_t"]
-tag("I2", f"with a 2.0 mm aluminium (5052 class) bracket the bracket is {m_al:.0f} g and the unit {m_total - m_brk + m_al:.0f} g")
+v_per_mm = bplate.volume / 1000 / P["plate_t"]            # cm3 per mm of plate thickness (tabs scale too)
+for t, m in ((1.5, "steel"), (2.0, "steel")):
+    m_alt = v_per_mm * t * RHO[m]
+    tag("I2", f"for comparison, a {t} mm stainless bracket is {m_alt:.0f} g and the unit {m_total - m_brk + m_alt:.0f} g")
 fp = D["footprint"]
 tag("I3", f"below the lid {fp[0]:.0f} x {fp[1]:.0f} x {D['below_lid']:.1f} mm (R16: 160 x 90 x 100 mm)")
 

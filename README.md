@@ -47,7 +47,7 @@ The money does not reach everyone. Collection rates are as low as 31 % in Sub-Sa
 
 ## What sparked the idea
 
-It came out of a September 2026 review of Design Molecule's applied research areas against the open projects already in the lab. It connects to WasteWise. The trigger in the wider world is UNEP's *Global Waste Management Outlook 2024*, launched in February 2024, which projected waste rising from 2.1 billion tonnes in 2023 to 3.8 billion tonnes by 2050 ([UNEP](https://www.unep.org/resources/global-waste-management-outlook-2024)), while the fill sensors on the market are closed products, typically sold with a service subscription.
+The starting point was Philadelphia's 2009 rollout of 500 solar-powered BigBelly compactors, which replaced about 700 wire baskets on the promise that sensor-reported fullness would cut collections from 17 trips a week to five ([US EPA](https://archive.epa.gov/international/jius/web/html/bigbelly_trash_compactors.html)). In July 2010 City Controller Alan Butkovitz reported that collections averaged about 10 a week, that each compactor had cost about $3,700, and that the city had relied solely on the maker's claims without independent verification ([NBC10 Philadelphia](https://www.nbcphiladelphia.com/news/local/bigbelly-trash-compactors-a-big-fat-waste-of-money-controller/2140012/)). Both sides agreed that knowing how full a bin is saves trips; the dispute was over how much, and only the vendor held the data. BinLevel separates that knowledge from the bin: a sensor with about $55 of parts, roughly 1.5 % of the price of one of those compactors, that fits containers a city already owns, with an open payload so the city can check the savings itself.
 
 ## Problem
 
@@ -55,13 +55,13 @@ Fixed collection schedules empty half-full bins while others overflow. Cities an
 
 ## Concept
 
-A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every 1 to 2 hours, or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $55.00 (indicative), within the $60 budget; the unit weighs about 435 g, above its 400 g target. No camera, no microphone.
+A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every hour (every 2 hours at SF12), or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $55.00 (indicative), within the $60 budget; the unit weighs about 334 g with a 2 mm aluminium bracket, inside its 400 g target. No camera, no microphone.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing, radio inside steel containers and mass) and those at risk (accuracy on real waste, hot lids and false heat alerts): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions adopted for TRL 3, open for Amish's review: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md).
+Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing and radio inside steel containers) and those at risk (accuracy on real waste and hot lids): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions by Amish: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) and [docs/decisions/0002-recommendations-accepted.md](docs/decisions/0002-recommendations-accepted.md).
 
 ## Key components
 
-- Stock IP67 enclosure on a 1.5 mm stainless bracket, bolted under the lid with four tamper-resistant M6 bolts
+- Stock IP67 enclosure on a 2 mm aluminium bracket, bolted under the lid with four stainless tamper-resistant M6 bolts
 - Sealed 40 kHz ultrasonic transducer (main range, from about 0.25 m to the container floor)
 - Near-range time-of-flight sensor (top 0.4 m of the bin, where the 80 % threshold lies)
 - RAK3172 (STM32WL) LoRaWAN module, the same radio family as FieldNode
@@ -98,4 +98,4 @@ Controlled documents follow the portfolio [documentation standard](.kit/STANDARD
 - **Hardware** (CAD, drawings, BOM, electronics): [CERN-OHL-S v2](LICENSE)
 - **Software** (firmware, scripts, notebooks): [MIT](LICENSE-SOFTWARE)
 
-A project of the [Design Molecule](https://designmolecule.com) lab. Smart cities set.
+A project of the [Design Molecule](https://designmolecule.com) lab.
