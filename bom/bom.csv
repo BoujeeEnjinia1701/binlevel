@@ -1,5 +1,10 @@
 item,qty,spec,supplier,unit_cost_usd,make_buy,notes
-Ultrasonic or time-of-flight distance sensor,,,,,,
-Microcontroller and LoRa radio,,,,,,
-"Battery, multi-year life",,,,,,
-Bin lid mount,,,,,,
+1 Enclosure,1,"IP67 ABS or polycarbonate box about 115 x 65 x 45 mm with screw-down cover; holes for transducer (25 mm) and ToF window (11 mm)",Electronics distributor,6.00,buy,Indicative price; IP69K option for pressure-washed bins costs more
+2 Stainless bracket and tamper bolts,1,"1.5 to 3 mm stainless plate about 150 x 80 mm with end tabs; four M6 tamper-resistant button-head bolts with sealing washers and nyloc nuts",Local fabricator plus fastener supplier,5.00,make,Indicative price; drill lid on site
+3 Ultrasonic transducer with driver,1,"Sealed 40 kHz waterproof transducer module (JSN-SR04T class), about 0.25 to 1.5 m range in this use (estimate), 3.3 V capable version",Electronics distributor,7.00,buy,Indicative price; blind zone about 0.25 m (estimate)
+4 Near-range ToF sensor,1,"VL53L1X-class laser ranging module, 0.03 to about 0.4 m used here, behind a glass or PMMA window",Electronics distributor,5.00,buy,Indicative price; window fouling unverified
+5 LoRaWAN module,1,"STM32WL-class module (RAK3172 or similar) with u.FL antenna port, EU868, US915 or IN865 build",Module distributor,9.00,buy,Indicative price; same radio family as FieldNode (proposed)
+6 Carrier PCB and small parts,1,"Two-layer carrier board with 3-axis accelerometer (wake-on-motion), temperature sensor, load switch for sensors, buffer capacitor for radio pulses, fuse and connectors",PCB service and distributor,8.00,make,Indicative price; board layout is TRL 4 work and not started
+7 Primary lithium cell and holder,1,"Li-SOCl2 C size (ER26500 class) 3.6 V about 8.5 Ah nominal, with holder and PTC or fuse",Battery distributor,9.00,buy,Indicative price; AA option about $4 (decision 3); never recharge
+8 Antenna,1,"Flexible 868/915 MHz PCB antenna with u.FL lead; external lid-mount antenna needed for steel containers",Electronics distributor,3.00,buy,Indicative price
+9 Gaskets and vent,1,"Cover gasket, transducer and window seals, ePTFE vent membrane",Electronics distributor,3.00,buy,Indicative price

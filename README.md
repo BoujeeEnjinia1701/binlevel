@@ -6,13 +6,21 @@
 
 A fill-level sensor for public and communal bins that reports when bins need emptying so collection routes serve full bins, not empty ones.
 
+![BinLevel concept](media/hero.png)
+
+[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
+
 ## Concept rationale
 
-Fill data cuts wasted trips and overflowing bins at the same time.
+A collection crew on a fixed timetable cannot tell a full bin from an empty one until it arrives. A small sensor under the lid that measures the distance down to the waste, and says so by radio a few times a day, gives the planner that knowledge before the truck leaves. BinLevel uses the same principle as commercial bin sensors (ultrasonic ranging, tilt and temperature) but adds a cheap time-of-flight sensor for the top of the bin, runs for about a decade on one primary lithium cell (estimate), and sends only levels, never images or sound.
+
+It is open and garage-buildable because the towns, campuses and community groups that most need better collection are least able to pay per-bin subscriptions for closed sensors. Every part is an off-the-shelf module in a stock enclosure, the payload format is documented, and it talks to any LoRaWAN network, including the lab's TwinKit gateway and The Things Network.
 
 ## Burning platform
 
-Waste collection is a large municipal cost, and overflowing bins harm public health.
+The world produced about 2.56 billion tonnes of municipal waste in 2022, and the World Bank expects 3.86 billion tonnes by 2050 under business as usual ([World Bank, *What a Waste 3.0*](https://www.worldbank.org/en/publication/what-a-waste)). UNEP estimates the global direct cost of waste management at about USD 252 billion in 2020, rising to about USD 361 billion once the hidden costs of pollution, poor health and climate change are counted ([UNEP, 2024](https://www.unep.org/resources/global-waste-management-outlook-2024)).
+
+The money does not reach everyone. Collection rates are as low as 31 % in Sub-Saharan Africa and 67 % in South Asia, and public spending on waste in most low- and middle-income countries is well below 0.15 % of GDP, against about 0.3 to 0.5 % needed for basic collection ([World Bank](https://www.worldbank.org/en/publication/what-a-waste)). With budgets this tight, a truck trip to a half-empty bin is a trip not made to an overflowing one.
 
 ## Where it could be used
 
@@ -20,36 +28,52 @@ Waste collection is a large municipal cost, and overflowing bins harm public hea
 
 | Industry | Use |
 | --- | --- |
-| _To be developed_ | |
+| Municipal waste services and contractors | Plan daily routes around communal containers that are near full; confirm each emptying |
+| Housing estates and property managers | Call for collection only when shared 660 to 1,100 L bins need it |
+| Markets, ports and transport hubs | Watch high-turnover bins that fill unpredictably with trading and passenger peaks |
+| Parks, beaches and tourism | Seasonal litter bins that sit empty in winter and overflow on summer weekends |
+| Universities, hospitals and industrial sites | Campus bins and recycling points on private LoRaWAN networks |
+| Recycling and deposit schemes | Glass, paper and textile banks that must be emptied before they overflow |
 
 ### By country or region
 
 | Country or region | Why it matters there |
 | --- | --- |
-| _To be developed_ | |
+| Sub-Saharan Africa | Waste collection rates are as low as 31 % ([World Bank](https://www.worldbank.org/en/publication/what-a-waste)); sending scarce trucks to full communal points first stretches the service. |
+| South Asia, including India | Collection rates are about 67 % ([World Bank](https://www.worldbank.org/en/publication/what-a-waste)); dense markets and housing produce fast, uneven fill that fixed timetables miss. |
+| European Union | Each person generated about 517 kg of municipal waste in 2024 ([Eurostat](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Municipal_waste_statistics)); high labor costs make every avoided lift valuable. |
+| England, United Kingdom | Councils dealt with 1.26 million fly-tipping incidents in 2024/25, 62 % of them household waste ([Defra](https://www.gov.uk/government/statistics/fly-tipping-statistics-for-england/fly-tipping-statistics-for-england-2024-to-2025)); clearing communal bins before they overflow helps keep side waste off the street. |
+| United States | Americans generated 292.4 million tons of municipal waste in 2018, about 4.9 lb (2.2 kg) per person per day ([US EPA](https://www.epa.gov/facts-and-figures-about-materials-waste-and-recycling/national-overview-facts-and-figures-materials)); parks and campuses run large fleets of street bins. |
 
 ## What sparked the idea
 
-It came out of a September 2026 review of Design Molecule's applied research areas against the open projects already in the lab. It connects to WasteWise.
+It came out of a September 2026 review of Design Molecule's applied research areas against the open projects already in the lab. It connects to WasteWise. The trigger in the wider world is UNEP's *Global Waste Management Outlook 2024*, launched in February 2024, which projected waste rising from 2.1 billion tonnes in 2023 to 3.8 billion tonnes by 2050 ([UNEP](https://www.unep.org/resources/global-waste-management-outlook-2024)), while the fill sensors on the market are closed products, typically sold with a service subscription.
 
 ## Problem
 
-Fixed collection schedules empty half-full bins while others overflow.
+Fixed collection schedules empty half-full bins while others overflow. Cities and communities have no cheap, open way to know how full each bin is before the truck leaves.
 
 ## Concept
 
-A fill-level sensor for public and communal bins that reports when bins need emptying so collection routes serve full bins, not empty ones.
+A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state by LoRaWAN every 1 to 2 hours, or at once when the bin passes a set level (default 80 %, proposed). A primary lithium cell lasts about 10 years or more (estimate). Parts cost about $55 (indicative), within the $60 budget. No camera, no microphone.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md)
+Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (accuracy on real waste, IP69K washing and radio through steel lids): [docs/03-requirements.md](docs/03-requirements.md).
 
 ## Key components
 
-- Ultrasonic or time-of-flight distance sensor
-- Microcontroller and LoRa radio
-- Battery, multi-year life
-- Bin lid mount
+- Stock IP67 enclosure on a stainless bracket, bolted under the lid
+- Sealed 40 kHz ultrasonic transducer (main range, about 0.25 to 1.5 m, estimate)
+- Near-range time-of-flight sensor (top of bin, about 0.03 to 0.4 m, estimate)
+- STM32WL-class LoRaWAN module, the same radio family proposed for FieldNode
+- Carrier board with accelerometer (emptying and lid events) and temperature sensor
+- Li-SOCl2 C cell, multi-year life
+- Flexible antenna (external antenna for steel containers)
 
 The working bill of materials is in [bom/bom.csv](bom/bom.csv).
+
+## Safety
+
+> The Li-SOCl2 cell is a primary lithium cell: never charge, short, crush or overheat it, fuse it, and recycle spent cells through a battery collection point, never in the bin. Bins hold sharp objects and biological waste: install and service sensors only on emptied, cleaned containers with cut-resistant gloves and eye protection, and deburr drilled lids. The temperature alert is a maintenance aid, not fire detection.
 
 ## Repository layout
 
