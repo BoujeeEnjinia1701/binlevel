@@ -3,7 +3,7 @@ doc_id: BNL-PRB-001
 title: BinLevel problem statement
 project: BinLevel
 doc_type: Problem statement
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-09-25'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Users, context, constraints, prior work with sources and open questions for TRL 2
+- version: "0.3"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: Target container adopted for TRL 3 (BNL-DDR-001, D1); lid temperature updated from BNL-CAL-001
 ---
 
 # BinLevel problem statement
@@ -39,9 +43,9 @@ Where budgets are thin, collection coverage is low: the World Bank reports colle
 | Community groups and small towns | A sensor they can build, repair and own, feeding their own map | Often no budget for commercial subscriptions |
 | Residents and passers-by | Clean streets; no surveillance | The sensor must be visibly harmless: no camera, no microphone |
 
-**Target containers (proposed, awaiting Amish).** The first design case is the four-wheel communal container of the EN 840 class (660 to 1,100 L, plastic or steel, flat or domed lid), with public street litter bins (50 to 240 L) as a second case. The concept model uses an 1,100 L container of typical size (about 1,370 x 1,070 x 1,340 mm outer, an estimate from common catalog dimensions).
+**Target containers (adopted as recommended for TRL 3 under Amish's 2026-09-25 instruction, open for his review; BNL-DDR-001, D1).** The first design case is the four-wheel communal container of the EN 840 class (660 to 1,100 L, plastic or steel, flat or domed lid), with public street litter bins (50 to 240 L) as a second case. The concept model uses an 1,100 L container of typical size (about 1,370 x 1,070 x 1,340 mm outer, an estimate from common catalog dimensions).
 
-**Operating environment.** Outdoors under the lid, shaded but in a closed box that can reach high temperatures in sun (estimate: up to about 60 °C inside a dark lid in summer) and below freezing in winter; condensation, food waste acids, dust and insects; repeated shocks when the bin is lifted and tipped into the truck; and periodic washing, sometimes with hot pressure water.
+**Operating environment.** Outdoors under the lid, shaded but in a closed box that can reach high temperatures in sun (a dark lid reaches about 67 °C on a 40 °C day in full sun, and a light lid about 55 °C; estimates from BNL-CAL-001, section H) and below freezing in winter; condensation, food waste acids, dust and insects; repeated shocks when the bin is lifted and tipped into the truck; and periodic washing, sometimes with hot pressure water.
 
 ## Constraints
 
@@ -67,8 +71,8 @@ Where budgets are thin, collection coverage is low: the World Bank reports colle
 
 ## Open questions
 
-- [ ] Which container types and lid materials dominate in the first partner city? Steel lids block the radio if the antenna sits inside.
-- [ ] Is an ultrasonic blind zone of about 0.25 m (estimate for low-cost sealed transducers) acceptable, or must the top 20 % of the bin be measured directly?
+- [ ] Which container types and lid materials dominate in the first partner city? Steel containers block the radio if the antenna sits inside (BNL-CAL-001 gives about 0.35 km of range); the choice between an external antenna and excluding steel containers is open (BNL-DDR-001, O1).
+- [x] Is an ultrasonic blind zone of about 0.25 m acceptable, or must the top 20 % of the bin be measured directly? Measured directly: the ToF sensor covers the top 0.4 m (BNL-DDR-001, D2; BNL-CAL-001, section A).
 - [ ] How are containers washed (hot pressure water needs IP69K-class sealing)?
 - [ ] Who owns the data and the gateway: the city, the contractor or a community group?
 - [ ] What fill threshold triggers a collection for each waste stream (general, recycling, organics)?

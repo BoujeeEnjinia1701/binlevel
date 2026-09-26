@@ -1,18 +1,18 @@
 # BinLevel
 
-![TRL 2](https://img.shields.io/badge/TRL-2%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
+![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
 
-**Area:** Smart Cities · **TRL:** 2 of 9 (concept formulated) · **Prototype budget:** about $60 USD · **Difficulty:** 1 of 5
+**Area:** Smart Cities · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** about $60 USD · **Difficulty:** 1 of 5
 
 A fill-level sensor for public and communal bins that reports when bins need emptying so collection routes serve full bins, not empty ones.
 
 ![BinLevel concept](media/hero.png)
 
-[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
+[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement BNL-DWG-001 (PDF)](cad/drawings/BNL-DWG-001.pdf) · [Sizing note](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
-A collection crew on a fixed timetable cannot tell a full bin from an empty one until it arrives. A small sensor under the lid that measures the distance down to the waste, and says so by radio a few times a day, gives the planner that knowledge before the truck leaves. BinLevel uses the same principle as commercial bin sensors (ultrasonic ranging, tilt and temperature) but adds a cheap time-of-flight sensor for the top of the bin, runs for about a decade on one primary lithium cell (estimate), and sends only levels, never images or sound.
+A collection crew on a fixed timetable cannot tell a full bin from an empty one until it arrives. A small sensor under the lid that measures the distance down to the waste, and says so by radio a few times a day, gives the planner that knowledge before the truck leaves. BinLevel uses the same principle as commercial bin sensors (ultrasonic ranging, tilt and temperature) but adds a cheap time-of-flight sensor for the top of the bin, runs for a decade or more on one primary lithium cell (about 16 years in the worst radio case on paper), and sends only levels, never images or sound.
 
 It is open and garage-buildable because the towns, campuses and community groups that most need better collection are least able to pay per-bin subscriptions for closed sensors. Every part is an off-the-shelf module in a stock enclosure, the payload format is documented, and it talks to any LoRaWAN network, including the lab's TwinKit gateway and The Things Network.
 
@@ -55,17 +55,17 @@ Fixed collection schedules empty half-full bins while others overflow. Cities an
 
 ## Concept
 
-A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state by LoRaWAN every 1 to 2 hours, or at once when the bin passes a set level (default 80 %, proposed). A primary lithium cell lasts about 10 years or more (estimate). Parts cost about $55 (indicative), within the $60 budget. No camera, no microphone.
+A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every 1 to 2 hours, or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $55.00 (indicative), within the $60 budget; the unit weighs about 435 g, above its 400 g target. No camera, no microphone.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (accuracy on real waste, IP69K washing and radio through steel lids): [docs/03-requirements.md](docs/03-requirements.md).
+Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing, radio inside steel containers and mass) and those at risk (accuracy on real waste, hot lids and false heat alerts): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions adopted for TRL 3, open for Amish's review: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md).
 
 ## Key components
 
-- Stock IP67 enclosure on a stainless bracket, bolted under the lid
-- Sealed 40 kHz ultrasonic transducer (main range, about 0.25 to 1.5 m, estimate)
-- Near-range time-of-flight sensor (top of bin, about 0.03 to 0.4 m, estimate)
-- STM32WL-class LoRaWAN module, the same radio family proposed for FieldNode
-- Carrier board with accelerometer (emptying and lid events) and temperature sensor
+- Stock IP67 enclosure on a 1.5 mm stainless bracket, bolted under the lid with four tamper-resistant M6 bolts
+- Sealed 40 kHz ultrasonic transducer (main range, from about 0.25 m to the container floor)
+- Near-range time-of-flight sensor (top 0.4 m of the bin, where the 80 % threshold lies)
+- RAK3172 (STM32WL) LoRaWAN module, the same radio family as FieldNode
+- Carrier board with accelerometer (emptying and lid events), temperature sensor and nanopower regulator
 - Li-SOCl2 C cell, multi-year life
 - Flexible antenna (external antenna for steel containers)
 
