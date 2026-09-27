@@ -6,9 +6,9 @@
 
 A fill-level sensor for public and communal bins that reports when bins need emptying so collection routes serve full bins, not empty ones.
 
-![BinLevel concept](media/hero.png)
+![BinLevel: fill-level sensor for communal and street bins, product render](media/render-hero.png)
 
-[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement BNL-DWG-001 (PDF)](cad/drawings/BNL-DWG-001.pdf) · [Sizing note](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
+[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement BNL-DWG-001 (PDF)](cad/drawings/BNL-DWG-001.pdf) · [Sizing note](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 

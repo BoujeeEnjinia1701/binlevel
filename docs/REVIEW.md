@@ -188,3 +188,33 @@ Unchanged: the Li-SOCl2 cell must never be charged, shorted or crushed and must 
 ### TRL 4
 
 TRL 4 remains on hold by Amish's instruction. No build, test, PCB, firmware or purchasing work was started.
+
+## Session 2026-09-26: product appearance model and photoreal renders
+
+Amish chose this repo for the first batch of product renders on 2026-09-26.
+
+### What was done
+
+- `cad/src/product_model.py` (new): `product_parts()`, `TITLE` and `RENDER_VIEWS` (hero, exploded, detail) for the kit's photoreal renderer. It imports PARAMS and derived() from `cad/src/model.py` and keeps every main dimension and interface: enclosure envelope and split height, sensor apertures, bracket plate, tabs and bolt pattern, lid thickness, board, module, cell and antenna positions. It adds:
+  - enclosure with rounded corners and filleted edges, a parting-line groove with the cover gasket showing, four cover screws in counterbores and matching bosses;
+  - sealed ultrasonic probe with seal ring and inner lock ring; ToF window (clear) with seal ring, spacer, breakout board and sensor chip;
+  - ePTFE pressure vent on the side wall; a device label with a QR code, print lines and a teal band (#0F766E);
+  - aluminium bracket with filleted tab corners; tamper-resistant button-head bolts with pin-hex sockets, sealing washers and nyloc nuts;
+  - carrier board with ICs, buffer capacitor and connectors; LoRaWAN module with shield can and u.FL; C cell with terminals, holder and a fabric retaining strap; flexible antenna with trace;
+  - context: the upper part of a simple street bin with its hinged lid opened 45 degrees, so the sensor face shows.
+- `README.md`: hero image now `media/render-hero.png`; "Exploded render" link added at the start of the links line. The render files are produced later by the orchestrator.
+- Self-check previews (matplotlib, clear parts omitted) were reviewed outside the repo.
+
+### Differences from model.py (Proposed, awaiting Amish)
+
+1. **Render pose.** The unit and lid are turned together by 45 degrees about the lid hinge (a line parallel to Y) so the sensor face is visible; all sizes and relative positions are unchanged. The exploded and detail views show the unit at the same angle. Recommendation: accept for renders only.
+2. **Context bin.** The renders show a compact street bin (250 x 290 mm lid, 85 mm of body below the rim) instead of the 1,100 L container that PARAMS describes for the calculations, so the sensor fills more of the frame. Recommendation: accept; the pitch covers communal and street bins, and the concept media keep the 1,100 L container.
+3. **Sealing washers.** An 18 mm sealing washer (BOM 2) sits under each bolt head, which raises the heads 1.2 mm above the model.py position. Recommendation: add the washer to model.py at the next CAD update.
+4. **Bolt shank.** In model.py the bolt shank runs to z = 58 mm, 2.7 mm above the top of the head (z = 55.3 mm). The appearance model ends the shank at the head. Recommendation: correct model.py.
+5. **Nyloc nuts.** Placed directly under the bracket (z = 39 to 45 mm); in model.py the nut (z = 42 to 47 mm) overlaps the 2 mm plate. Recommendation: correct model.py.
+6. **Board corners.** The carrier board corners are notched around the cover screw bosses that a stock IP67 box has; model.py shows a full 105 x 55 mm rectangle. Recommendation: keep as an open item for the board outline against the chosen enclosure; no layout work until TRL 4 is released.
+7. **Label and cover screws.** The device label (QR code for the device identity) has no BOM line; the four cover screws are counted with the stock enclosure (BOM 1). Recommendation: add the label as a note under BOM 1 if Amish wants it in the design.
+
+### Scope and TRL
+
+This is an appearance model only: no tolerances, no fabrication detail, no PCB layout. `trl` stays 3 and TRL 4 remains on hold. `model.py`, the BOM and the controlled documents were not changed.
