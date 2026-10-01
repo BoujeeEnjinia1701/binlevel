@@ -3,9 +3,9 @@ doc_id: BNL-REQ-001
 title: BinLevel requirements
 project: BinLevel
 doc_type: Requirements
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-09-25'
+date: '2026-09-30'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,17 +25,21 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.5"
+  date: '2026-09-30'
+  author: Amish Chadha
+  change: Design for construction (BNL-DDR-003); R1, R14 and R16 figures updated from BNL-CAL-001 v0.3; no status changed
 ---
 
 # BinLevel requirements
 
-These requirements are the TRL 3 design basis. The design choices behind them were decided by Amish on 2026-09-25 (go with recommendation; BNL-DDR-001 and BNL-DDR-002). Under DDR-002, R6's upper limit is raised from 60 to 70 °C, R9's rate-of-rise rule counts only above 50 °C, and R3's 2 h interval applies at SF12 only; no other target changed. Status is from the sizing note BNL-CAL-001 v0.2, which checks each requirement against the parametric model: two are not met (R5, R10 in steel containers), two are at risk (R2, R6), two can only be settled by test (R7, R12) and ten are met (six by calculation, four by design). See the notes under Table 1.
+These requirements are the TRL 3 design basis. The design choices behind them were decided by Amish on 2026-09-25 (go with recommendation; BNL-DDR-001 and BNL-DDR-002). Under DDR-002, R6's upper limit is raised from 60 to 70 °C, R9's rate-of-rise rule counts only above 50 °C, and R3's 2 h interval applies at SF12 only; no other target changed. Under BNL-DDR-003 (design for construction, 2026-09-30, open for Amish's review) the box grows to 55 mm and gains studs, standoffs and printed sensor mounts; the mass, envelope, geometry and cost figures below are updated and no requirement changed status. Status is from the sizing note BNL-CAL-001 v0.3, which checks each requirement against the parametric model: two are not met (R5, R10 in steel containers), two are at risk (R2, R6), two can only be settled by test (R7, R12) and ten are met (six by calculation, four by design). See the notes under Table 1.
 
 Table 1. Requirements.
 
 | ID | Requirement | Target | Verification (TRL 3 or later) | Status at TRL 3 (BNL-CAL-001) |
 | --- | --- | --- | --- | --- |
-| R1 | Measure distance from lid to waste surface over the full depth of the target container | 0.03 to 1.5 m below the sensor face | Calculation and datasheet review; later bench test in a container | Met: 0 to 1.01 m needed; ultrasonic from 0.25 m, ToF to 0.4 m, overlapping between 60 % and 75 % fill (datasheet ranges to confirm) |
+| R1 | Measure distance from lid to waste surface over the full depth of the target container | 0.03 to 1.5 m below the sensor face | Calculation and datasheet review; later bench test in a container | Met: 0 to 1.00 m needed; ultrasonic from 0.25 m, ToF to 0.4 m, overlapping between 60 % and 75 % fill (datasheet ranges to confirm) |
 | R2 | Report fill level accurately on real mixed waste | Within ±10 % of container depth for 90 % of readings | Error budget; later field comparison against manual dip readings | **At risk**: instrument error about 10 mm (ultrasonic) and 20 mm (ToF) of the ±101 mm allowance; the waste surface is unknown |
 | R3 | Report often enough to plan routes, and quickly when full | Routine uplink at least every 2 h (default 1 h, 2 h at SF12 only); threshold alert within 20 min of crossing the set fill level (default 80 %) | Timing calculation | Met: worst-case alert 17.5 min |
 | R4 | Run for years on one battery | 5 years or more in the worst radio case (SF12); 10 years design target | Power budget calculation | Met: 16.3 years on a C cell at SF12; enclosure and seals, not the cell, limit life |
@@ -48,9 +52,9 @@ Table 1. Requirements.
 | R11 | Protect privacy | No camera or microphone; payload limited to fill, distance, temperature, tilt, events and battery | Design review of BOM and payload | Met by design |
 | R12 | Install without wiring or tools beyond a drill | Fit to a lid in 10 min or less with four bolts or rivets; no cables | Timed trial at TRL 4 | Not verifiable at TRL 3: four through-bolts on a 130 x 60 mm pattern, no cables |
 | R13 | Resist casual tampering and theft | Mounted inside the lid; tamper-resistant fasteners | Design review | Met by design |
-| R14 | Low cost and buildable | Parts cost $60 or less per sensor at prototype quantities; no custom tooling | Priced BOM | Met: $55.00 (indicative); $63.00 with the external antenna option |
+| R14 | Low cost and buildable | Parts cost $60 or less per sensor at prototype quantities; no custom tooling | Priced BOM | Met: $59.00 (indicative, $1.00 margin, BNL-DDR-003); $67.00 with the external antenna option |
 | R15 | Open and interoperable | Documented payload format and open decoder; works with any LoRaWAN network server | Documentation review | Met by design: candidate 11-byte layout in BNL-CAL-001 |
-| R16 | Light and compact | 400 g or less; no larger than 160 x 90 x 100 mm below the lid, including bracket | Mass calculation from the model, then weighing | Met: about 334 g with a 2 mm aluminium bracket (DDR-002; was 435 g with 1.5 mm stainless); 150 x 80 x 61.5 mm |
+| R16 | Light and compact | 400 g or less; no larger than 160 x 90 x 100 mm below the lid, including bracket | Mass calculation from the model, then weighing | Met: about 350 g with a 2 mm aluminium plate and the 55 mm box (DDR-003; 334 g before, 435 g with 1.5 mm stainless); 150 x 80 x 71.5 mm |
 
 Notes on requirements not met or at risk:
 
@@ -61,7 +65,7 @@ Notes on requirements not met or at risk:
 
 ## Assumptions
 
-- Target container: 1,100 L four-wheel communal container (DDR-001, D1), lid underside 1.07 m above the inner floor and transducer face 1.01 m above it (from the parametric model).
+- Target container: 1,100 L four-wheel communal container (DDR-001, D1), lid underside 1.07 m above the inner floor and transducer face 1.00 m above it (from the parametric model).
 - Fill level is reported as a percentage of the distance from the sensor face to the container floor, measured at installation.
 - Worst radio case is spreading factor 12 at 125 kHz with an 11-byte payload (1.48 s airtime per uplink); typical urban case is SF9 (0.21 s).
 - A dark lid may reach about 67 °C on a 40 °C day in full sun (BNL-CAL-001, section H; to be measured).

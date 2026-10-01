@@ -1,4 +1,4 @@
-"""BinLevel sizing calculations, BNL-CAL-001 v0.2 (TRL 3, DDR-002 update).
+"""BinLevel sizing calculations, BNL-CAL-001 v0.3 (TRL 3, design for construction, DDR-003).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Prints every number quoted in docs/04-calcs/01-sizing.md. Each line carries a tag such as
@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "cad" / "src"))
-from model import PARAMS as P, derived, build_parts  # noqa: E402
+from model import PARAMS as P, derived, build_parts, build_components  # noqa: E402
 
 D = derived(P)
 
@@ -99,11 +99,13 @@ M6_AS, M6_SY = 20.1, 210e6 # mm2 stress area; 210 MPa, a conservative yield for 
 CELL_M = 0.050             # kg
 
 # mass (g) of bought-in parts (assumed) and densities (g/cm3)
-RHO = {"abs": 1.05, "steel": 7.9, "fr4": 1.85, "al": 2.68}
-BOUGHT = {"bolts, nyloc nuts and washers (4 sets)": 48.0, "ultrasonic transducer and driver, cable shortened": 30.0,
-          "ToF breakout and window": 3.0, "LoRaWAN module": 2.0, "components on the carrier": 10.0,
-          "Li-SOCl2 C cell": 50.0, "cell holder and fuse": 8.0, "antenna and lead": 3.0,
-          "gaskets, vent and cover screws": 6.0}
+RHO = {"abs": 1.05, "steel": 7.9, "fr4": 1.85, "al": 2.68, "asa": 1.07, "pmma": 1.19}
+BOUGHT = {"M6 x 20 bolts, nyloc nuts, plain and sealing washers (4 sets)": 36.0,
+          "box fixings: M4 studs, aluminium standoffs, bonded seals, M4 screws, nylon standoffs": 22.0,
+          "ultrasonic transducer and driver board, cable shortened": 30.0,
+          "ToF breakout": 2.0, "LoRaWAN module on its breakout": 4.0, "breakouts, regulator, capacitor, wiring on the board": 12.0,
+          "Li-SOCl2 C cell": 50.0, "cell holder, strap and fuse": 9.0, "antenna and lead": 3.0,
+          "gasket, vent and cover screws": 6.0}
 
 
 def airtime(n_bytes, sf, bw=125e3, cr=1, preamble=8):
@@ -118,7 +120,7 @@ def sound(t):
     return 331.3 * math.sqrt(1 + t / 273.15)
 
 
-print("BinLevel sizing, BNL-CAL-001 v0.2\n")
+print("BinLevel sizing, BNL-CAL-001 v0.3\n")
 
 # ------------------------------------------------------------------ A. measurement geometry
 print("A. Measurement geometry (R1)")
@@ -298,21 +300,24 @@ tag("H4", f"worst case above the gate: a unit already at {RATE_GATE:.0f} degC (s
           f"{'below' if rise_gate < RATE_K else 'ABOVE'} the {RATE_K:.0f} K trigger")
 
 parts, bplate = build_parts(P)
-vol = {n: s.volume / 1000 for _, n, s in parts}                   # cm3
+COMP = build_components(P)
+cv = {k: c.shape.volume / 1000 for k, c in COMP.items()}            # cm3
 # ------------------------------------------------------------------ I. mass and size
 print("\nI. Mass and size (R16)")
-m_enc = vol["Enclosure, IP67 ABS or PC"] * RHO["abs"]
+m_enc = (cv["base"] + cv["cover"]) * RHO["abs"]
 mat = P.get("plate_mat", "steel")
 mat_name = {"al": "5052-class aluminium", "steel": "stainless"}[mat]
-m_brk = bplate.volume / 1000 * RHO[mat]
-m_pcb = vol["Carrier PCB with accelerometer"] * RHO["fr4"]
-m_total = m_enc + m_brk + m_pcb + sum(BOUGHT.values())
-tag("I1", f"enclosure {m_enc:.0f} g; bracket plate and tabs ({P['plate_t']} mm {mat_name}) {m_brk:.0f} g; PCB {m_pcb:.0f} g; "
-          f"bought-in parts {sum(BOUGHT.values()):.0f} g; total {m_total:.0f} g (R16: 400 g)")
-v_per_mm = bplate.volume / 1000 / P["plate_t"]            # cm3 per mm of plate thickness (tabs scale too)
+m_brk = cv["plate"] * RHO[mat]
+m_pcb = cv["board"] * RHO["fr4"]
+m_print = (cv["collar"] + cv["tof_holder"]) * RHO["asa"] + cv["window"] * RHO["pmma"]
+m_total = m_enc + m_brk + m_pcb + m_print + sum(BOUGHT.values())
+tag("I1", f"enclosure {m_enc:.0f} g; bracket plate ({P['plate_t']} mm {mat_name}, no tabs) {m_brk:.0f} g; board {m_pcb:.0f} g; "
+          f"printed collar and ToF holder with window {m_print:.0f} g; bought-in parts {sum(BOUGHT.values()):.0f} g; "
+          f"total {m_total:.0f} g (R16: 400 g)")
+v_per_mm = cv["plate"] / P["plate_t"]                      # cm3 per mm of plate thickness
 for t, m in ((1.5, "steel"), (2.0, "steel")):
     m_alt = v_per_mm * t * RHO[m]
-    tag("I2", f"for comparison, a {t} mm stainless bracket is {m_alt:.0f} g and the unit {m_total - m_brk + m_alt:.0f} g")
+    tag("I2", f"for comparison, a {t} mm stainless plate is {m_alt:.0f} g and the unit {m_total - m_brk + m_alt:.0f} g")
 fp = D["footprint"]
 tag("I3", f"below the lid {fp[0]:.0f} x {fp[1]:.0f} x {D['below_lid']:.1f} mm (R16: 160 x 90 x 100 mm)")
 
@@ -325,6 +330,14 @@ tag("J1", f"{SHOCK_G:.0f} g shock on a {m_unit_est:.2f} kg unit: {f_unit:.0f} N;
           f"{P['lid_t']:.0f} mm HDPE lid about {pull:,.0f} N; one M6 bolt at {M6_SY / 1e6:.0f} MPa about {M6_AS * M6_SY / 1e6:,.0f} N")
 tag("J2", f"cell ({CELL_M * 1000:.0f} g) at {SHOCK_G:.0f} g needs {CELL_M * SHOCK_G * 9.81:.0f} N of retention; spring clips alone "
           f"are not relied on; a strap or potting pad is specified")
+
+m_hang = (m_total - m_brk - 36.0) / 1000                      # everything hanging on the four studs
+f_hang = m_hang * SHOCK_G * 9.81
+abs_shear, seal_od, stud_push = 30e6, 9.0, 900.0
+pull_abs = math.pi * seal_od * P["enc_wall"] * abs_shear / 1e6
+tag("J3", f"the box and its contents ({m_hang * 1000:.0f} g) hang on four M4 studs: {f_hang:.0f} N at {SHOCK_G:.0f} g, "
+          f"{f_hang / 4:.0f} N per stud; base floor pull-through under a {seal_od:.0f} mm sealing washer about {pull_abs:,.0f} N per stud "
+          f"(ABS shear {abs_shear / 1e6:.0f} MPa, assumed); stud push-out in 2 mm aluminium about {stud_push:.0f} N (assumed, maker's data to confirm)")
 
 # ------------------------------------------------------------------ K. cost
 print("\nK. Cost (R14)")

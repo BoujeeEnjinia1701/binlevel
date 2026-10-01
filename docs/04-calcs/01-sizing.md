@@ -3,9 +3,9 @@ doc_id: BNL-CAL-001
 title: BinLevel sizing calculations
 project: BinLevel
 doc_type: Calculation
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-25'
+date: '2026-09-30'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,17 +17,21 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002); 2 mm aluminium bracket, R6 to 70 °C, gated rate-of-rise rule, 2 h interval at SF12 only
+- version: "0.3"
+  date: '2026-09-30'
+  author: Amish Chadha
+  change: Design for construction (BNL-DDR-003); 55 mm box, no tabs, studs and standoffs, M6 x 20 bolts; geometry, mass, size, fixing and cost re-run; new check J3
 ---
 
 # BinLevel sizing calculations
 
-On paper, BinLevel meets ten of its sixteen requirements (six by calculation and four by design), has two at risk, misses two and leaves two that only a test can settle. The two misses are R5 (the stock enclosure is IP67, not IP69K) and R10 in steel containers (an antenna inside a steel container loses the link beyond about 0.35 km; the choice of remedy is still open). The two at risk are accuracy on real waste (R2) and the climate range (R6: a dark lid reaches about 67 °C against the new 70 °C limit, and the transducer's rating is unconfirmed). Version 0.2 applies the recommendations Amish accepted on 2026-09-25 (BNL-DDR-002): a 2 mm aluminium bracket brings the unit from about 435 g to 334 g, so R16 is now met; R6's upper limit rises from 60 to 70 °C; the 15 K rate-of-rise heat trigger counts only above 50 °C, which removes the false alarm when sun breaks through cloud, so R9 is now met on paper; and the routine interval stretches to 2 h at SF12 only. Battery life is not a constraint: a C cell lasts about 16 years in the worst radio case. The calculations changed four details of the TRL 2 concept: the payload shrinks from 12 to 11 bytes so that it fits the slowest US915 data rate, the carrier gains a nanopower regulator because a fresh cell exceeds the module's 3.6 V limit, the temperature is read every 5 min so that the heat alert arrives within 15 min, and the cell is strapped rather than held by clips alone. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C3], is the line of that script's output that carries it.
+On paper, BinLevel meets ten of its sixteen requirements (six by calculation and four by design), has two at risk, misses two and leaves two that only a test can settle. The two misses are R5 (the stock enclosure is IP67, not IP69K) and R10 in steel containers (an antenna inside a steel container loses the link beyond about 0.35 km; the choice of remedy is still open). The two at risk are accuracy on real waste (R2) and the climate range (R6: a dark lid reaches about 67 °C against the new 70 °C limit, and the transducer's rating is unconfirmed). Version 0.2 applies the recommendations Amish accepted on 2026-09-25 (BNL-DDR-002): a 2 mm aluminium bracket brings the unit from about 435 g to 334 g, so R16 is now met; R6's upper limit rises from 60 to 70 °C; the 15 K rate-of-rise heat trigger counts only above 50 °C, which removes the false alarm when sun breaks through cloud, so R9 is now met on paper; and the routine interval stretches to 2 h at SF12 only. Version 0.3 re-runs the geometry, mass, size, fixing and cost checks for the constructable design of BNL-DDR-003 (a 55 mm tall box held on four studs and standoffs, no tabs, shorter bolts and the parts added for construction): the unit is now about 350 g and 71.5 mm below the lid, still inside R16, parts cost $59.00 against $60, and no requirement changes status. Battery life is not a constraint: a C cell lasts about 16 years in the worst radio case. The calculations changed four details of the TRL 2 concept: the payload shrinks from 12 to 11 bytes so that it fits the slowest US915 data rate, the carrier gains a nanopower regulator because a fresh cell exceeds the module's 3.6 V limit, the temperature is read every 5 min so that the heat alert arrives within 15 min, and the cell is strapped rather than held by clips alone. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C3], is the line of that script's output that carries it.
 
 > **Safety:** These are first-principles estimates for a paper proof of concept. The temperature alert is a maintenance aid and not fire detection. Nothing here replaces checks of the lithium cell's fusing and retention, or safe working practice around bins and collection vehicles. See BNL-PRC-001, Safety.
 
 ## Scope and method
 
-The note checks every requirement in BNL-REQ-001 v0.4 against the design in BNL-PRC-001 v0.4 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, `derived()` and part solids, so the container depth, sensor positions, bracket volume and envelope used here are the ones in the STEP files and in drawing BNL-DWG-001. The script also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`.
+The note checks every requirement in BNL-REQ-001 v0.5 against the design in BNL-PRC-001 v0.5 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, `derived()` and part solids, so the container depth, sensor positions, bracket volume and envelope used here are the ones in the STEP files and in drawing BNL-DWG-001. The script also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`.
 
 The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with the sensor at the center of an HDPE lid, ranging every 15 min, reporting hourly (2 h at SF12 only, DDR-002) and on alerts (D6), on a LoRaWAN network with a TwinKit or public gateway (D4, D5).
 
@@ -49,19 +53,19 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 | Link | +14 dBm; 0 dBi node antenna with 0.5 dB loss; 2 dBi gateway antenna with 2 dB feeder loss, 30 m high; node 1.3 m high; 6 dB noise figure; Okumura-Hata urban model at 868 MHz; container penalty 10 dB (HDPE, antenna under the lid), 30 dB (steel, antenna inside), 3 dB (steel, external lid antenna); 10 dB fade margin | Screening values; container penalties are assumptions to be measured |
 | Lid heat | 40 °C ambient; 900 W/m² sun (100 W/m² under cloud); absorptance 0.9 (dark lid) or 0.5 (light lid); 25 W/m²K above and 5 W/m²K below the lid; unit heat capacity 400 J/K coupled to the lid at 0.75 W/K | Handbook ranges; assumed coupling |
 | Shock | 20 g peak when the container strikes the lifter stop; HDPE shear strength 20 MPa; 18 mm washers; M6 stress area 20.1 mm² at 210 MPa | Assumed; the 20 g figure needs measurement |
-| Mass | ABS 1.05, stainless 7.9, aluminium 2.68 and FR-4 1.85 g/cm³ applied to model volumes; bracket 2.0 mm 5052-class aluminium (DDR-002); bought-in parts 160 g (Section I) | Assumed part masses |
+| Mass | ABS 1.05, stainless 7.9, aluminium 2.68 and FR-4 1.85 g/cm³ applied to model volumes, with ASA 1.07 and PMMA 1.19 g/cm³ for the printed mounts and window; bracket 2.0 mm 5052-class aluminium (DDR-002), no tabs (DDR-003); bought-in parts 174 g (Section I) | Assumed part masses |
 
 ## A. Measurement geometry (R1)
 
-- **Depth.** The lid underside is 1,072 mm above the inner floor, and the transducer face sits 1,011 mm above it [A1].
-- **Blind zone.** At the adopted 80 % threshold (D6) the waste surface is 202 mm below the face, inside the 250 mm ultrasonic blind zone, so the ultrasonic sensor alone reads fill only up to 75.3 % [A2]. This confirms decision D2.
-- **Coverage.** The ToF sensor, used to 400 mm, covers fill from 60.4 % to 100 %, which leaves a 150 mm overlap band where both sensors read and can be compared [A3]. Together they cover the 0 to 1.01 m needed, inside the R1 target of 0.03 to 1.5 m [A4].
-- **Beam.** A 15° beam spreads to 0.54 m across at the floor, which averages over uneven waste; the ToF footprint at 0.4 m is 192 mm across [A5]. Mounted at the lid center, the transducer is 492 mm from the nearest wall, so the beam clears the walls down to the floor for half-angles up to 26.0° [A6]. An off-center mount would see echoes from the walls sooner.
+- **Depth.** The lid underside is 1,072 mm above the inner floor, and the transducer face sits 1,000 mm above it (1,011 mm before the box grew 10 mm taller under BNL-DDR-003) [A1].
+- **Blind zone.** At the adopted 80 % threshold (D6) the waste surface is 200 mm below the face, inside the 250 mm ultrasonic blind zone, so the ultrasonic sensor alone reads fill only up to 75.0 % [A2]. This confirms decision D2.
+- **Coverage.** The ToF sensor, used to 400 mm, covers fill from 60.0 % to 100 %, which leaves a 150 mm overlap band where both sensors read and can be compared [A3]. Together they cover the 0 to 1.00 m needed, inside the R1 target of 0.03 to 1.5 m [A4].
+- **Beam.** A 15° beam spreads to 0.54 m across at the floor, which averages over uneven waste; the ToF footprint at 0.4 m is 192 mm across [A5]. Mounted at the lid center, the transducer is 492 mm from the nearest wall, so the beam clears the walls down to the floor for half-angles up to 26.2° [A6]. An off-center mount would see echoes from the walls sooner.
 
 ## B. Instrument accuracy (R2)
 
 - **Speed of sound.** Over the revised R6 range of -20 to 70 °C the speed of sound runs from 318.9 to 371.3 m/s; without compensation the distance error would be -7.1 % to +8.2 % [B1]. The on-board temperature reading removes most of it.
-- **Error budget.** With a 5 K error between the sensor and the air column, the residual is 0.85 %, or 8.6 mm at full depth; echo jitter adds 4.3 mm and the timer 0.17 mm [B2]. The ultrasonic instrument error is 9.6 mm and the ToF error 20 mm, against a ±101 mm allowance (±10 % of depth), so the instruments use 9 % and 20 % of it [B3].
+- **Error budget.** With a 5 K error between the sensor and the air column, the residual is 0.85 %, or 8.5 mm at full depth; echo jitter adds 4.3 mm and the timer 0.17 mm [B2]. The ultrasonic instrument error is 9.5 mm and the ToF error 20 mm, against a ±100 mm allowance (±10 % of depth), so the instruments use 10 % and 20 % of it [B3].
 - **Conclusion.** R2 is decided by the waste surface (bags, cardboard, voids and slopes), not by the sensors. No calculation settles it, so R2 stays at risk.
 
 ## C. Energy and battery life (R4)
@@ -139,19 +143,20 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 
 ## I. Mass and size (R16)
 
-- **Mass.** Enclosure 74 g, bracket plate and tabs 83 g (2.0 mm 5052-class aluminium, DDR-002), PCB 17 g and bought-in parts 160 g give 334 g, inside R16's 400 g [I1]. **R16 is now met.** Version 0.1 used a 1.5 mm stainless bracket (183 g, unit 435 g); a 2.0 mm stainless bracket would make the unit 496 g [I2].
-- **Size.** Below the lid the unit measures 150 x 80 x 61.5 mm (61.0 mm with the thinner stainless plate), inside the 160 x 90 x 100 mm limit [I3].
+- **Mass.** Enclosure 94 g (base and cover, 55 mm tall), bracket plate 63 g (2.0 mm 5052-class aluminium, no tabs), electronics board 13 g, printed collar and ToF holder with the window 5 g, and bought-in parts 174 g (now including the box fixings, 22 g, and the shorter bolts, 36 g) give 350 g, inside R16's 400 g [I1]. **R16 is met.** Version 0.2 gave 334 g with the 45 mm box and tabs; version 0.1 used a 1.5 mm stainless bracket (unit 435 g). A 2.0 mm stainless plate would make the unit 473 g [I2].
+- **Size.** Below the lid the unit measures 150 x 80 x 71.5 mm (61.5 mm before the box grew 10 mm taller), inside the 160 x 90 x 100 mm limit [I3].
 - **Corrosion.** The bolts stay stainless. Stainless bolts through wet aluminium can corrode the aluminium around the holes; an anodized plate or insulating washers should be considered (review suggestion, not applied).
 
 ## J. Shock and fixing (R7)
 
-- A 20 g shock on the 0.33 kg unit gives 66 N. One washer pulling through the 5 mm HDPE lid needs about 5,655 N and one M6 bolt carries about 4,221 N [J1], so the fixing has a large margin on strength. Loosening under repeated shocks, and IK08 impact, need a test.
+- A 20 g shock on the 0.35 kg unit gives 69 N. One washer pulling through the 5 mm HDPE lid needs about 5,655 N and one M6 bolt carries about 4,221 N [J1], so the fixing has a large margin on strength. Loosening under repeated shocks, and IK08 impact, need a test.
 - The 50 g cell needs 10 N of retention at 20 g [J2]; the holder is specified with a strap rather than spring clips alone.
+- **Box fixing (new in v0.3).** The box and everything in it, about 250 g, hang on the four M4 studs: 49 N at 20 g, or 12 N per stud. The base floor would need about 2,100 N per stud to pull through under a 9 mm sealing washer (ABS shear strength 30 MPa, assumed), and a press-in stud's push-out rating in 2 mm aluminium is taken as about 900 N (to confirm from the maker's data) [J3]. Strength is not the limit; loosening needs a test.
 
 ## K. Cost (R14)
 
-- All nine BOM lines are priced; the parts total is $55.00 against `budget_usd` of $60, within budget by $5.00 [K1]. No new budget was recommended, so costs are stated against the one figure.
-- An external lid antenna for steel containers (about $8, open item O1) would take the total to $63.00, over budget [K2].
+- All eleven BOM lines are priced; the parts total is $59.00 against `budget_usd` of $60, within budget by $1.00 [K1]. Lines 10 (box fixings) and 11 (printed mounts and window) were added for construction (BNL-DDR-003). The $1.00 margin is an open decision in the design decisions register. No new budget was recommended, so costs are stated against the one figure.
+- An external lid antenna for steel containers (about $8, open item O1) would take the total to $67.00, over budget [K2].
 
 ## L. Results against every requirement
 
@@ -159,22 +164,22 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 
 | ID | Requirement | Target | Value (tag) | Status |
 | --- | --- | --- | --- | --- |
-| R1 | Range | 0.03 to 1.5 m below the face | 0 to 1.01 m needed; ultrasonic 0.25 to 4 m, ToF to 0.4 m (A2 to A4) | Met (datasheet ranges to confirm) |
-| R2 | Accuracy on real waste | ±10 % of depth for 90 % of readings | Instrument 9.6 mm (ultrasonic), 20 mm (ToF) of 101 mm; surface unknown (B3) | At risk |
+| R1 | Range | 0.03 to 1.5 m below the face | 0 to 1.00 m needed; ultrasonic 0.25 to 4 m, ToF to 0.4 m (A2 to A4) | Met (datasheet ranges to confirm) |
+| R2 | Accuracy on real waste | ±10 % of depth for 90 % of readings | Instrument 9.5 mm (ultrasonic), 20 mm (ToF) of 100 mm; surface unknown (B3) | At risk |
 | R3 | Reporting and alert timing | Uplink at least every 2 h; alert within 20 min | 1 h (2 h at SF12); 17.5 min (G1) | Met |
 | R4 | Battery life | 5 years at SF12; 10-year target | 16.3 years (C cell) (C4) | Met |
 | R5 | Sealing | IP67 minimum; IP69K where pressure washed | Stock IP67 enclosure | Not met (IP69K) |
 | R6 | Climate range | -20 to +70 °C inside the container (was +60 °C) | Dark lid about 67 °C (H1); standard module at its -20 °C limit, RAK3172-T for cold sites; transducer rating unconfirmed | At risk |
-| R7 | Lifting, tipping and lid slams | No loosening; IK08 | 66 N against 4,221 N per bolt (J1) | Not verifiable at TRL 3 |
+| R7 | Lifting, tipping and lid slams | No loosening; IK08 | 69 N against 4,221 N per bolt (J1); 12 N per stud (J3) | Not verifiable at TRL 3 |
 | R8 | Emptying and lid events | Tip event with the next uplink | Accelerometer wake-on-motion | Met by design |
 | R9 | Heat warning | Alert within 15 min above 70 °C, or on a 15 K rise in 15 min counted only above 50 °C | 7.5 min with 5 min reads (G2); sun step starts at about 43 °C, below the gate (H3); 10.9 K above the gate (H4) | Met on paper (to be measured) |
 | R10 | Open LoRaWAN within radio rules | Class A; EU868, US915, IN865; duty cycle and 30 s/day | 20.8 s/day at SF12 (E4); 11 bytes fits US915 DR0 (E2); steel container 0.35 km (F2) | Not met (steel containers); met for HDPE |
 | R11 | Privacy | No camera or microphone; limited payload | BOM and 11-byte layout (E) | Met by design |
 | R12 | Installation | 10 min or less, four bolts, no cables | Four through-bolts on a 130 x 60 mm pattern | Not verifiable at TRL 3 |
 | R13 | Tamper resistance | Inside the lid; tamper-resistant fasteners | Button-head tamper bolts from above | Met by design |
-| R14 | Cost | $60 or less | $55.00 (K1) | Met |
+| R14 | Cost | $60 or less | $59.00 (K1) | Met |
 | R15 | Open and interoperable | Documented payload; open decoder | Candidate layout in Section E; decoder shared with FieldNode (D5) | Met by design |
-| R16 | Mass and size | 400 g or less; within 160 x 90 x 100 mm below the lid | 334 g with the aluminium bracket (I1); 150 x 80 x 61.5 mm (I3) | Met |
+| R16 | Mass and size | 400 g or less; within 160 x 90 x 100 mm below the lid | 350 g (I1); 150 x 80 x 71.5 mm (I3) | Met |
 
 Summary: met 10 (R1, R3, R4, R9, R14, R16 by calculation; R8, R11, R13, R15 by design); at risk 2 (R2, R6); not met 2 (R5, R10 in steel containers); not verifiable at TRL 3, 2 (R7, R12). Version 0.1 had met 8, at risk 3 and not met 3.
 
@@ -186,8 +191,8 @@ Summary: met 10 (R1, R3, R4, R9, R14, R16 by calculation; R8, R11, R13, R15 by d
 | AA cell about 10 to 7 years | 8.5 to 6.2 years | Precis updated |
 | 12-byte payload | 11 bytes, so it fits US915 DR0 | Precis, requirements and media updated |
 | Uplink airtime about 5 s/day (SF9) and 18 s/day (SF12) | 5.4 and 20.8 s/day with two alerts | Precis updated |
-| Mass about 250 g; R16 met | 435 g with stainless (v0.1); 334 g with the aluminium bracket (v0.2); R16 met | Requirements, precis and README updated |
-| 150 x 80 x 63 mm below the lid | 150 x 80 x 61.5 mm (2.0 mm plate) | Requirements and precis updated |
+| Mass about 250 g; R16 met | 435 g with stainless (v0.1); 334 g with the aluminium bracket (v0.2); 350 g constructable (v0.3); R16 met | Requirements, precis and README updated |
+| 150 x 80 x 63 mm below the lid | 150 x 80 x 61.5 mm (v0.2); 71.5 mm with the 55 mm box (v0.3) | Requirements and precis updated |
 | Temperature inside a dark lid up to about 60 °C | About 67 °C on a 40 °C day | Problem statement and requirements note updated |
 | 80 % fill about 0.21 m below the lid | 0.20 m below the transducer face | Precis updated |
-| Parts cost about $55 | $55.00 | None |
+| Parts cost about $55 | $55.00 (v0.2); $59.00 with the parts added for construction (v0.3) | BOM, precis and README updated |

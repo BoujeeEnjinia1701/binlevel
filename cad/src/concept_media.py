@@ -1,7 +1,7 @@
 """BinLevel concept media (TRL 3), generated from the parametric model.
 
 Run from the repo root:  python cad/src/concept_media.py
-Takes the nine BOM parts from cad/src/model.py (PARAMS) and adds an 1,100 L four-wheel
+Takes the BOM parts from cad/src/model.py (PARAMS) and adds an 1,100 L four-wheel
 communal container (EN 840 class, typical size, an estimate), waste, pavement and a 1.75 m
 person as context. Parts are colored and numbered to match bom/bom.csv. Figures on the sheet
 come from docs/04-calcs/sizing.py (BNL-CAL-001). Not for fabrication.
@@ -21,9 +21,9 @@ from model import PARAMS as P, build_parts, container, derived  # noqa: E402
 D = derived(P)
 EW, ED, EH = P["enc"]
 COLORS = {1: "#F3F4F6", 2: "#94A3B8", 3: "#0F766E", 4: "#7C3AED", 5: "#2563EB", 6: "#16A34A",
-          7: "#C2410C", 8: "#111827", 9: "#D4A017"}
-EXPLODE = {1: (0, 0, 150), 2: (0, 0, 250), 3: (0, 0, -60), 4: (0, 0, -45), 5: (0, 0, 30), 6: (0, 0, 0),
-           7: (0, 0, 60), 8: (0, -230, 150), 9: (0, 0, 100)}
+          7: "#C2410C", 8: "#111827", 9: "#D4A017", 10: "#475569", 11: "#B45309"}
+EXPLODE = {1: (0, 0, 0), 2: (0, 0, 260), 3: (0, 0, -90), 4: (0, 0, -70), 5: (0, 0, 90), 6: (0, 0, 60),
+           7: (0, 0, 130), 8: (0, -200, 200), 9: (0, 0, -130), 10: (0, 0, 190), 11: (0, 0, -40)}
 bom_parts, _ = build_parts(P)
 local = [(n, s, COLORS[b], b, EXPLODE[b]) for b, n, s in bom_parts]
 
@@ -74,10 +74,10 @@ render_all(
                  "Reading every 15 min; uplink every 1 h (2 h at SF12), or at once on 80 %",
                  "LoRaWAN Class A, 11-byte payload; fill, temperature, tilt, battery only",
                  "Li-SOCl2 C cell: 16 years worst case (SF12) on paper; 10-year design life",
-                 "About 334 g (2 mm aluminium bracket) and $55 in parts (BNL-CAL-001)"],
+                 "About 350 g and $59 in parts (BNL-CAL-001 v0.3)"],
     scale_figure=False, context=context,
     flow={"title": "data flow (estimates; fill level only, no images or audio)", "unit": "",
-          "stages": [("Waste surface", "0 to 1.01 m below face"), ("Ranging", "echo + ToF, 15 min"),
+          "stages": [("Waste surface", "0 to 1.00 m below face"), ("Ranging", "echo + ToF, 15 min"),
                      ("On-node fill %", "median of 5 pings"), ("LoRaWAN uplink", "11 B, 1 h (2 h at SF12) or 80 %"),
                      ("Gateway and server", "TwinKit or TTN"), ("Route plan", "serve full bins first")]},
 )

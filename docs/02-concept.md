@@ -3,9 +3,9 @@ doc_id: BNL-PRC-001
 title: BinLevel design precis
 project: BinLevel
 doc_type: Design precis
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-09-25'
+date: '2026-09-30'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,13 +25,17 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.5"
+  date: '2026-09-30'
+  author: Amish Chadha
+  change: Design for construction (BNL-DDR-003); 55 mm box, box fixings and printed sensor mounts added; mass, envelope and cost from BNL-CAL-001 v0.3
 ---
 
 # BinLevel design precis
 
 ## Summary
 
-BinLevel is a small sealed box bolted under the lid of a communal or public bin. Every 15 minutes it measures the distance down to the waste with a sealed ultrasonic transducer, backed by a time-of-flight (ToF) sensor for the top of the bin, and turns it into a fill percentage. It sends the level, temperature, tilt events and battery state by LoRaWAN every hour (every 2 hours at SF12), or at once when the bin passes a set level. A primary lithium C cell would last about 16 years in the worst radio case on paper, so seals and plastics, not the cell, set the 10-year design life. Parts cost is $55.00 (indicative), within the $60 budget, and the unit weighs about 334 g with its 2 mm aluminium bracket, inside the 400 g target (BNL-CAL-001). It carries no camera and no microphone.
+BinLevel is a small sealed box bolted under the lid of a communal or public bin. Every 15 minutes it measures the distance down to the waste with a sealed ultrasonic transducer, backed by a time-of-flight (ToF) sensor for the top of the bin, and turns it into a fill percentage. It sends the level, temperature, tilt events and battery state by LoRaWAN every hour (every 2 hours at SF12), or at once when the bin passes a set level. A primary lithium C cell would last about 16 years in the worst radio case on paper, so seals and plastics, not the cell, set the 10-year design life. Parts cost is $59.00 (indicative), within the $60 budget, and the unit weighs about 350 g, inside the 400 g target (BNL-CAL-001). The design is constructable (BNL-DDR-003), and the prototype build plan BNL-BLD-001 shows how to build it. It carries no camera and no microphone.
 
 ![Figure 1. BinLevel under the lid of an 1,100 L communal container, shown in section, with a 1.75 m person for scale. Concept, not for fabrication.](../media/hero.png)
 
@@ -51,15 +55,17 @@ Numbers match the exploded view (Figure 3) and `bom/bom.csv`. Main dimensions an
 
 | No. | Component | Role |
 | --- | --- | --- |
-| 1 | Enclosure, IP67 ABS or PC, about 115 x 65 x 45 mm | Protects electronics; holes for transducer and ToF window |
-| 2 | Aluminium bracket, 2 mm 5052 class, and four stainless tamper-resistant M6 bolts on a 130 x 60 mm pattern | Fixes the unit under the lid; bolts pass through the lid |
+| 1 | Enclosure, IP67 ABS or PC, about 115 x 65 x 55 mm, cover facing down | Protects electronics; holes for transducer, ToF window and vent in the cover |
+| 2 | Aluminium bracket plate, 2 mm 5052 class, and four stainless tamper-resistant M6 x 20 bolts on a 130 x 60 mm pattern | Fixes the unit under the lid; bolts pass through the lid |
 | 3 | Sealed 40 kHz ultrasonic transducer (JSN-SR04T class) with driver | Main range sensor, about 0.25 to 1.5 m (estimate) |
 | 4 | Near-range ToF sensor (VL53L1X class) behind a window | Top of bin and overfill, about 0.03 to 0.4 m (estimate) |
 | 5 | LoRaWAN module, RAK3172 (STM32WL) | Controller and radio in one module, as in FieldNode |
-| 6 | Carrier PCB with accelerometer, temperature sensor, nanopower regulator, load switch and buffer capacitor | Joins the parts; powers sensors only while measuring; keeps the module below 3.6 V |
+| 6 | Carrier board with accelerometer, temperature sensor, nanopower regulator, load switch and buffer capacitor (a prototyping board with breakouts for the first prototype) | Joins the parts; powers sensors only while measuring; keeps the module below 3.6 V |
 | 7 | Li-SOCl2 primary cell, C size, 3.6 V, about 8.5 Ah nominal, with strapped holder and fuse | Multi-year energy store |
 | 8 | Flexible 868/915 MHz antenna | Radio antenna inside the enclosure (external option for steel bins) |
-| 9 | Gaskets, vent membrane and transducer seal | Keeps water and condensation out |
+| 9 | Gasket and vent membrane | Keeps water and condensation out |
+| 10 | Box fixings: four press-in studs in the plate, sealing washers and standoffs | Hold the box to the plate and carry the board |
+| 11 | Printed probe collar and ToF holder, window disc | Hold the sensors in the cover |
 
 ![Figure 3. Exploded view with BOM numbers. Concept, not for fabrication.](../media/exploded.png)
 
@@ -99,16 +105,16 @@ With a 10 dB fade margin and an urban path-loss model, a sensor in an HDPE conta
 
 ### Measurement
 
-- The transducer face is 1.01 m above the floor of an 1,100 L container. At 80 % fill the surface is 0.20 m below the face, inside the ultrasonic blind zone (about 0.25 m, estimate), which is why the ToF sensor covers the top 0.4 m. The two sensors overlap between 60 % and 75 % fill.
+- The transducer face is 1.00 m above the floor of an 1,100 L container. At 80 % fill the surface is 0.20 m below the face, inside the ultrasonic blind zone (about 0.25 m, estimate), which is why the ToF sensor covers the top 0.4 m. The two sensors overlap between 60 % and 75 % fill.
 - The instrument error, with speed of sound compensated from the on-board temperature, is about 10 mm for the ultrasonic sensor and 20 mm for the ToF sensor, against the ±101 mm (±10 % of depth) accuracy target. Accuracy on real waste is limited by the surface, not by the sensor.
 - An ultrasonic beam of 15° half-angle (assumed) covers a patch about 0.54 m across at the floor. Mounted at the lid center, the beam clears the walls for half-angles up to about 26°.
 - The temperature is read every 5 min (not only with each 15 min ranging), so a heat alert reaches the server within about 7.5 min.
 
 ### Mass and cost
 
-- Mass about 334 g: enclosure 74 g, 2 mm aluminium bracket 83 g, bolts and nuts 48 g, cell and holder 58 g, transducer, PCB, module and small parts about 72 g. This is inside the 400 g limit of R16. The 1.5 mm stainless bracket of BNL-PRC-001 v0.3 weighed 183 g and made the unit about 435 g; Amish chose the aluminium bracket on 2026-09-25 (DDR-002).
-- Envelope below the lid 150 x 80 x 61.5 mm.
-- Parts cost $55.00 at prototype quantities (indicative prices; see `bom/bom.csv`), inside the $60 budget. The gateway is shared across many bins and not included.
+- Mass about 350 g: enclosure 94 g, 2 mm aluminium plate 63 g, bolts, nuts and washers 36 g, box fixings 22 g, cell, holder and strap 59 g, transducer, board, module, printed mounts and small parts about 76 g. This is inside the 400 g limit of R16. The 1.5 mm stainless bracket of BNL-PRC-001 v0.3 weighed 183 g and made the unit about 435 g; Amish chose the aluminium bracket on 2026-09-25 (DDR-002).
+- Envelope below the lid 150 x 80 x 71.5 mm.
+- Parts cost $59.00 at prototype quantities (indicative prices; see `bom/bom.csv`), inside the $60 budget. The gateway is shared across many bins and not included.
 
 ## Key design choices (decided by Amish, 2026-09-25)
 
@@ -121,7 +127,7 @@ Each choice below was decided by Amish on 2026-09-25 (go with recommendation) an
 5. **Stock enclosure at TRL 2 to 3 (D9).** Keeps the build garage-friendly; a potted or IP69K design is a later option.
 6. **Relationship to FieldNode and TwinKit (D5).** BinLevel does not use the FieldNode enclosure, panel or LiFePO4 cell: at $126 the FieldNode core costs more than twice the BinLevel budget and would not fit under a lid. It reuses FieldNode's radio module family, payload conventions and decoder so both sit on the same TwinKit gateway.
 7. **First target container (D1), thresholds (D6) and temperature alert (D7).** The 660 to 1,100 L communal container is the design case; the default fill threshold is 80 %, the routine interval 1 h (2 h at SF12 only, DDR-002), and the heat alert 70 °C or a 15 K rise in 15 min. BNL-CAL-001 found that the ungated rate-of-rise trigger could fire when sun breaks through cloud, so under DDR-002 the rise counts only above 50 °C; the requirement R6 upper limit is also raised to 70 °C to match hot dark lids.
-8. **Aluminium bracket (DDR-002).** A 2 mm 5052-class aluminium plate replaces 1.5 mm stainless, taking the unit from about 435 g to 334 g so that it meets R16. The bolts stay stainless; galvanic isolation between them and the plate (anodizing or insulating washers) is a review suggestion, not yet applied.
+8. **Aluminium bracket (DDR-002).** A 2 mm 5052-class aluminium plate replaces 1.5 mm stainless, taking the unit from about 435 g to 334 g so that it meets R16 (350 g after the design for construction, BNL-DDR-003). The bolts stay stainless; galvanic isolation between them and the plate (anodizing or insulating washers) is a review suggestion, not yet applied.
 
 ## Safety
 

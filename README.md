@@ -8,7 +8,7 @@ A fill-level sensor for public and communal bins that reports when bins need emp
 
 ![BinLevel: fill-level sensor for communal and street bins, product render](media/render-hero.png)
 
-[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement BNL-DWG-001 (PDF)](cad/drawings/BNL-DWG-001.pdf) · [Sizing note](docs/04-calcs/01-sizing.md) · [Review note](docs/REVIEW.md)
+[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement BNL-DWG-001 (PDF)](cad/drawings/BNL-DWG-001.pdf) · [Sizing note](docs/04-calcs/01-sizing.md) · [Prototype build plan](docs/05-build-plan.md) · [Design decisions](docs/06-design-decisions.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
@@ -55,13 +55,13 @@ Fixed collection schedules empty half-full bins while others overflow. Cities an
 
 ## Concept
 
-A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every hour (every 2 hours at SF12), or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $55.00 (indicative), within the $60 budget; the unit weighs about 334 g with a 2 mm aluminium bracket, inside its 400 g target. No camera, no microphone.
+A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every hour (every 2 hours at SF12), or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $59.00 (indicative), within the $60 budget; the unit weighs about 350 g, inside its 400 g target. No camera, no microphone.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing and radio inside steel containers) and those at risk (accuracy on real waste and hot lids): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions by Amish: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) and [docs/decisions/0002-recommendations-accepted.md](docs/decisions/0002-recommendations-accepted.md).
+Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing and radio inside steel containers) and those at risk (accuracy on real waste and hot lids): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions by Amish: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) and [docs/decisions/0002-recommendations-accepted.md](docs/decisions/0002-recommendations-accepted.md); design for construction, open for review: [docs/decisions/0003-design-for-construction.md](docs/decisions/0003-design-for-construction.md). Every open and made decision: [docs/06-design-decisions.md](docs/06-design-decisions.md).
 
 ## Key components
 
-- Stock IP67 enclosure on a 2 mm aluminium bracket, bolted under the lid with four stainless tamper-resistant M6 bolts
+- Stock IP67 enclosure (115 x 65 x 55 mm) held on four press-in studs in a 2 mm aluminium plate, bolted under the lid with four stainless tamper-resistant M6 bolts
 - Sealed 40 kHz ultrasonic transducer (main range, from about 0.25 m to the container floor)
 - Near-range time-of-flight sensor (top 0.4 m of the bin, where the 80 % threshold lies)
 - RAK3172 (STM32WL) LoRaWAN module, the same radio family as FieldNode
@@ -70,6 +70,12 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, incl
 - Flexible antenna (external antenna for steel containers)
 
 The working bill of materials is in [bom/bom.csv](bom/bom.csv).
+
+## Building the prototype
+
+![Every component of the BinLevel prototype, pulled apart and numbered in build order](docs/05-build-plan/overview.png)
+
+The prototype build plan ([docs/05-build-plan.md](docs/05-build-plan.md)) shows how to make each component and fit it to the next, with a making sketch for every made part and a picture for every assembly step. The box hangs under a flat aluminium plate on four pressed-in studs; the electronics board, cell and antenna sit in the box's base, and the transducer, light sensor window and vent sit in its downward-facing cover. The work is drilling thin aluminium and plastic, two small 3D prints, bonding and soldering bought breakout boards, for about $59 in parts. It is a plan, not yet built: building and testing to it is TRL 4 work.
 
 ## Safety
 

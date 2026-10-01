@@ -224,3 +224,51 @@ This is an appearance model only: no tolerances, no fabrication detail, no PCB l
 - Kit 1.5.0 synced: STANDARDS v1.5 (sections 12 to 15: product renders, storefront images and image quality, public release, authorship and signing), `.kit/cards.py`, `.kit/image_qc.py`, `.kit/release_gate.py`, issue templates, and the `/render-product` and `/release` commands. `CLAUDE.md` now matches `.kit/CLAUDE.md`.
 - Every `media/render-*.png` recaptioned from its original render with the new layout: the title, concept label and repository sit in a band above the render and the view note in a band below it, each line wrapped to the image width, so no text overlaps other text or the render or runs off the image. `media/card.png` and `media/social-preview.png` regenerated with the same rules.
 - `python .kit/image_qc.py` and `python .kit/release_gate.py` pass. trl stays 3.
+
+## Session 2026-09-30: kit 1.7.0, design for construction and prototype build plan
+
+Amish approved the FieldNode build plan format on 2026-09-30 and asked for it across all repos, with outstanding decisions kept out of the build plan and in a separate design decisions register.
+
+### What was done
+
+- Kit 1.7.0 installed (`.kit/`, `.claude/commands/`); `CLAUDE.md` now matches `.kit/CLAUDE.md`.
+- Constructability review of `cad/src/model.py` with build123d. The model now builds every component by name (`build_components()`) and runs 192 constructability checks (`python cad/src/model.py --check`): no overlaps, 32 required contacts, one sealed gap, 22 clearances, nothing floating, R16 envelope. All pass.
+- `docs/decisions/0003-design-for-construction.md` (BNL-DDR-003 v0.1, Draft, made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review).
+- `bom/bom.csv`: lines 1, 2, 3, 6, 7 and 9 respecified; lines 10 (box fixings) and 11 (printed sensor mounts and window) added; `bom/bom-notes.md` updated.
+- `docs/04-calcs/sizing.py` and BNL-CAL-001 v0.3 re-run: geometry, mass, size, fixing (new check J3) and cost. BNL-REQ-001 v0.5 and BNL-PRC-001 v0.5 figures updated.
+- STEP and STL re-exported; BNL-DWG-001 to Rev P4; concept media regenerated (`media/hero.png`, `concept-blueprint`, `cutaway.png`, `exploded.png`, `flow.png`, `model.glb`).
+- `cad/src/build_plan_media.py` (new): overview, six making sketches BNL-DWG-101 to 106, two drilling layouts, eight joint close-ups, 13 assembly step pictures and a block wiring diagram.
+- `docs/05-build-plan.md` (BNL-BLD-001 v0.1) and `docs/06-design-decisions.md` (BNL-DEC-001 v0.1) written; both added to `trl_evidence`; `design_state: constructable` in `project.yaml`; README links line and a "Building the prototype" section added.
+
+### Design changes made for construction (BNL-DDR-003)
+
+1. Box fixing: the end tabs (which held nothing and could not be folded from a flat blank) are removed; four M4 press-in studs in the plate, M4 bonded sealing washers and M4 x 30 hex standoffs clamp the base to the plate.
+2. Tamper bolts: M6 x 40 to M6 x 20, with the 18 mm sealing washer under the head and a plain washer and nyloc nut under the plate, 1.5 mm clear of the box (fixes review items 3, 4 and 5 of 2026-09-26).
+3. Box height 45 to 55 mm, so the ultrasonic driver board (missing from the model) fits under the electronics board.
+4. Electronics board: a 90 x 50 mm prototyping board with bought breakouts on the four standoffs, clear of the stock box's corner towers (resolves review item 6 of 2026-09-26 for the prototype).
+5. Transducer held by a printed collar bonded inside the cover, with a grub screw; silicone in the 0.5 mm gap.
+6. ToF window: a printed holder bonded over the 11 mm hole holds a 16 mm window disc and the breakout.
+7. M8 vent added to the model, in the cover floor facing down.
+8. Box modelled as base and cover with towers, cover screws and the gasket in the rim groove; the cover with the sensors faces down.
+9. Cell in a holder with a strap through two board slots; module on its breakout; plugs on both sensor leads.
+
+### Key results
+
+- Mass 334 to 350 g (R16 limit 400 g); envelope below the lid 150 x 80 x 71.5 mm (was 61.5; limit 100); transducer face to floor 1,000 mm; parts $55.00 to $59.00 against the $60 budget ($1.00 margin); with the external antenna (O1) $67.00.
+- Requirement status unchanged: not met 2 (R5 IP69K, R10 in steel containers), at risk 2 (R2, R6), not verifiable at TRL 3 2 (R7, R12), met 10.
+
+### Proposed, awaiting Amish
+
+All in the design decisions register (`docs/06-design-decisions.md`): review of BNL-DDR-003; the $1.00 budget margin; the cell swap now needing the board lowered; O1 steel containers; O2 partner and region; galvanic isolation; route planner; fill-rate in the payload; the render choices of 2026-09-26.
+
+### Stale until regenerated on Amish's Mac
+
+The design changed visibly (taller box, no tabs, studs). `media/render-hero.png`, `media/render-exploded.png`, `media/render-detail.png`, `media/card.png`, `media/social-preview.png` and the appearance model `cad/src/product_model.py` (which still draws the tabs and the 45 mm box) are stale. `media/render-hero.png` is also missing from this cloud copy.
+
+### Safety
+
+Unchanged hazards: the Li-SOCl2 cell (never charge, short or heat; the build plan's stop S3 keeps the bench supply and the cell apart, because a supply across a primary cell would charge it); sharps and biological waste in bins; truck lifting gear; the heat alert is not fire detection. New: ASA printing, epoxy and silicone need ventilation.
+
+### Recommended next step
+
+Amish reviews BNL-DDR-003 and the register. TRL 4 (building and testing to the plan) stays on hold.
