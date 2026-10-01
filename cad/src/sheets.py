@@ -95,11 +95,12 @@ def main():
     views = safe_project_views(asm, work)
     views["iso"] = safe_project_views(assembly(with_lid=False), work / "below", iso_below=True)["iso"]
     bb = asm.bounding_box()
-    s = Sheet(project="BinLevel", title="General arrangement, sensor unit under lid", dwg_no="BNL-DWG-001", rev="P2",
+    s = Sheet(project="BinLevel", title="General arrangement, sensor unit under lid", dwg_no="BNL-DWG-001", rev="P3",
               author="Amish Chadha", date=DATE, scale=None, theme="technical",
               material="ABS or PC box; 5052 aluminium bracket; stainless bolts; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
               revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
-                         ("P2", "2 mm aluminium bracket; mass note (DDR-002)", DATE, "AC")])
+                         ("P2", "2 mm aluminium bracket; mass note (DDR-002)", DATE, "AC"),
+                         ("P3", "Layout and labels tidied", DATE, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -123,22 +124,24 @@ def main():
     zt = Z(bb.max.Z)
     L += dim_h(X(-ew / 2), X(ew / 2), zt - 5, f"{ew:.0f} box")
     L += [ext(X(-ew / 2), Z(eh), X(-ew / 2), zt - 6), ext(X(ew / 2), Z(eh), X(ew / 2), zt - 6)]
-    L += dim_h(X(P["us_x"]), X(P["tof_x"]), zt - 11, f"{P['tof_x'] - P['us_x']:.0f} sensor centers")
-    L += [ext(X(P["us_x"]), Z(eh), X(P["us_x"]), zt - 12), ext(X(P["tof_x"]), Z(eh), X(P["tof_x"]), zt - 12)]
     L += leader(X(-P["lid_patch"][0] / 2 + 10), Z(lu + P["lid_t"] / 2), X(-P["lid_patch"][0] / 2 + 10) - 2,
-                Z(bb.max.Z) - 16, "CONTAINER LID, HDPE (NOT IN BOM)", "end")
-    L += leader(X(P["us_x"]), Z(face + 2), X(P["us_x"]) - 12, Z(face) + 5, "3 ULTRASONIC FACE", "end")
+                Z(bb.max.Z) - 16, "LID, HDPE (NOT IN BOM)", "end")
+    L += leader(X(P["us_x"]), Z(face + 2), X(P["us_x"]) - 12, Z(face) + 5, "3 TRANSDUCER", "end")
     L += leader(X(P["tof_x"]), Z(0.5), X(P["tof_x"]) + 12, Z(face) + 5, "4 TOF WINDOW")
 
     # top view (from +Z): X to the right, Y up the sheet
     x, y, w, h = c["top"]
     Xt = lambda mx: x + (mx - bb.min.X) * k
     Yt = lambda my: y + h - (my - bb.min.Y) * k
-    L += dim_h(Xt(-bpx / 2), Xt(bpx / 2), Yt(bb.max.Y) - 4, f"{bpx:.0f} bolt pitch")
-    L += [ext(Xt(-bpx / 2), Yt(bpy / 2), Xt(-bpx / 2), Yt(bb.max.Y) - 5), ext(Xt(bpx / 2), Yt(bpy / 2), Xt(bpx / 2), Yt(bb.max.Y) - 5)]
+    ybp = Yt(bpy / 2) - 6
+    L += dim_h(Xt(-bpx / 2), Xt(bpx / 2), ybp, f"{bpx:.0f} bolt pitch")
+    L += [ext(Xt(-bpx / 2), Yt(bpy / 2) - 1, Xt(-bpx / 2), ybp - 1), ext(Xt(bpx / 2), Yt(bpy / 2) - 1, Xt(bpx / 2), ybp - 1)]
+    ysc = Yt(-pd / 2) + 9
+    L += dim_h(Xt(P["us_x"]), Xt(P["tof_x"]), ysc, f"{P['tof_x'] - P['us_x']:.0f} sensor centers")
+    L += [ext(Xt(P["us_x"]), Yt(-P["us_d"] / 2) + 1, Xt(P["us_x"]), ysc + 1), ext(Xt(P["tof_x"]), Yt(-P["win_d"] / 2) + 1, Xt(P["tof_x"]), ysc + 1)]
     L += dim_v(Xt(bb.min.X) - 5, Yt(bpy / 2), Yt(-bpy / 2), f"{bpy:.0f}")
     L += [ext(Xt(-bpx / 2), Yt(bpy / 2), Xt(bb.min.X) - 6, Yt(bpy / 2)), ext(Xt(-bpx / 2), Yt(-bpy / 2), Xt(bb.min.X) - 6, Yt(-bpy / 2))]
-    L += leader(Xt(bpx / 2), Yt(bpy / 2), Xt(bb.max.X) + 3, Yt(bb.max.Y) - 1, f"4X M6 TAMPER BOLT, {P['bolt_d'] + 1:.0f} HOLE IN LID")
+    L += leader(Xt(bpx / 2), Yt(-bpy / 2), Xt(bb.max.X) + 3, Yt(-bpy / 2) + 6, f"4X M6 TAMPER BOLT, {P['bolt_d'] + 1:.0f} HOLE IN LID")
 
     # right view (from +X)
     x, y, w, h = c["right"]
