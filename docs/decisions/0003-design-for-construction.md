@@ -3,9 +3,9 @@ doc_id: BNL-DDR-003
 title: BinLevel design for construction
 project: BinLevel
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-09-30'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
   date: '2026-09-30'
   author: Amish Chadha
   change: Changes that make the concept physically buildable, with the reason for each; made under Amish's 2026-09-30 instruction and open for his review
+- version: "0.2"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target
 ---
 
 # 0003: Design for construction
@@ -52,7 +56,7 @@ The changes keep what the unit does: the same sensing (ultrasonic plus ToF, same
 | Envelope | Below the lid 150 x 80 x 61.5 mm to 150 x 80 x 71.5 mm (R16: 160 x 90 x 100) [I3]. | Box 10 mm taller. |
 | Measurement geometry | Transducer face to container floor 1,011 to 1,000 mm; 80 % fill now 200 mm below the face; ultrasonic reads to 75.0 % fill and ToF from 60.0 %; R2 allowance ±100 mm [A1] to [A3], [B3]. | The face is 10 mm lower. R1 and R2 status unchanged. |
 | Shock | 66 to 69 N on the fixing [J1]; new check of the studs [J3]. | Heavier unit. |
-| Cost | BOM lines 1, 2, 3, 6, 7 and 9 respecified; lines 10 (box fixings, $2.50) and 11 (printed mounts and window, $1.50) added. Parts $55.00 to $59.00, within the unchanged $60 `budget_usd` by $1.00 [K1]; with the external lid antenna (O1) $67.00 [K2]. | Parts added for construction. |
+| Cost | BOM lines 1, 2, 3, 6, 7 and 9 respecified; lines 10 (box fixings, $2.50) and 11 (printed mounts and window, $1.50) added. Parts $55.00 to $59.00, within the unchanged $60 value-engineering target (`budget_usd`) by $1.00 [K1]; with the external lid antenna (O1) $67.00 [K2]. | Parts added for construction. |
 | Drawings | BNL-DWG-001 Rev P4; making sketches BNL-DWG-101 to 106 added. | Follows the model. |
 | Documents | BNL-CAL-001 v0.3, BNL-REQ-001 v0.5, BNL-PRC-001 v0.5: mass, envelope, geometry and cost figures updated. No requirement changed status. | Follows the model. |
 | Thermal and radio | Unchanged. The unit's assumed heat capacity (400 J/K) already covered about 0.4 kg; the antenna stays on the inner back wall. | |
@@ -61,7 +65,7 @@ The changes keep what the unit does: the same sensing (ultrasonic plus ToF, same
 
 | # | Question | Options | Recommendation |
 | --- | --- | --- | --- |
-| A1 | Budget margin is now $1.00 ($59.00 against $60). | (a) accept and confirm prices at TRL 4; (b) look for savings now (for example a cheaper generic box). | (a). |
+| A1 | Value engineering (a note, not a decision). The estimated cost is $59.00 against the $60 value-engineering target, $1.00 under. | (a) confirm prices at TRL 4; (b) look for savings now (for example a cheaper generic box). | (a). |
 | A2 | Swapping the cell now means lowering the electronics board (four screws) after the cover is off; the cell lasts about 16 years, so this is rare. | (a) accept; (b) move the cell below the board, which needs a taller box again. | (a). |
 
 ## Consequences

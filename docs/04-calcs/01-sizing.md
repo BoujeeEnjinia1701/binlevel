@@ -3,9 +3,9 @@ doc_id: BNL-CAL-001
 title: BinLevel sizing calculations
 project: BinLevel
 doc_type: Calculation
-version: "0.3"
+version: "0.4"
 status: Draft
-date: '2026-09-30'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -21,6 +21,10 @@ revisions:
   date: '2026-09-30'
   author: Amish Chadha
   change: Design for construction (BNL-DDR-003); 55 mm box, no tabs, studs and standoffs, M6 x 20 bolts; geometry, mass, size, fixing and cost re-run; new check J3
+- version: "0.4"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target
 ---
 
 # BinLevel sizing calculations
@@ -155,8 +159,8 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 
 ## K. Cost (R14)
 
-- All eleven BOM lines are priced; the parts total is $59.00 against `budget_usd` of $60, within budget by $1.00 [K1]. Lines 10 (box fixings) and 11 (printed mounts and window) were added for construction (BNL-DDR-003). The $1.00 margin is an open decision in the design decisions register. No new budget was recommended, so costs are stated against the one figure.
-- An external lid antenna for steel containers (about $8, open item O1) would take the total to $67.00, over budget [K2].
+- All eleven BOM lines are priced; the parts total is $59.00 against the $60 value-engineering target (`budget_usd`), $1.00 under [K1]. Lines 10 (box fixings) and 11 (printed mounts and window) were added for construction (BNL-DDR-003). The design decisions register lists the cost drivers and savings worth trying.
+- An external lid antenna for steel containers (about $8, open item O1) would take the total to $67.00, $7.00 over the value-engineering target [K2].
 
 ## L. Results against every requirement
 
@@ -177,7 +181,7 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 | R11 | Privacy | No camera or microphone; limited payload | BOM and 11-byte layout (E) | Met by design |
 | R12 | Installation | 10 min or less, four bolts, no cables | Four through-bolts on a 130 x 60 mm pattern | Not verifiable at TRL 3 |
 | R13 | Tamper resistance | Inside the lid; tamper-resistant fasteners | Button-head tamper bolts from above | Met by design |
-| R14 | Cost | $60 or less | $59.00 (K1) | Met |
+| R14 | Cost | $60 value-engineering target | $59.00 (K1) | Met, within the target |
 | R15 | Open and interoperable | Documented payload; open decoder | Candidate layout in Section E; decoder shared with FieldNode (D5) | Met by design |
 | R16 | Mass and size | 400 g or less; within 160 x 90 x 100 mm below the lid | 350 g (I1); 150 x 80 x 71.5 mm (I3) | Met |
 

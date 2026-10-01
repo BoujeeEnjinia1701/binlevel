@@ -2,7 +2,7 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![DOI](https://zenodo.org/badge/1388475235.svg)](https://zenodo.org/badge/latestdoi/1388475235) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/binlevel/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/binlevel/actions/workflows/reuse.yml) [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/BoujeeEnjinia1701/binlevel/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/BoujeeEnjinia1701/binlevel)
 
-**Area:** Smart Cities · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** about $60 USD · **Difficulty:** 1 of 5
+**Area:** Smart Cities · **TRL:** 3 of 9 (proof of concept on paper) · **Value-engineering target:** about $60 USD · **Difficulty:** 1 of 5
 
 A fill-level sensor for public and communal bins that reports when bins need emptying so collection routes serve full bins, not empty ones.
 
@@ -55,7 +55,7 @@ Fixed collection schedules empty half-full bins while others overflow. Cities an
 
 ## Concept
 
-A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every hour (every 2 hours at SF12), or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $59.00 (indicative), within the $60 budget; the unit weighs about 350 g, inside its 400 g target. No camera, no microphone.
+A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every hour (every 2 hours at SF12), or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $59.00 (indicative), within the $60 value-engineering target; the unit weighs about 350 g, inside its 400 g target. No camera, no microphone.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing and radio inside steel containers) and those at risk (accuracy on real waste and hot lids): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions by Amish: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) and [docs/decisions/0002-recommendations-accepted.md](docs/decisions/0002-recommendations-accepted.md); design for construction, open for review: [docs/decisions/0003-design-for-construction.md](docs/decisions/0003-design-for-construction.md). Every open and made decision: [docs/06-design-decisions.md](docs/06-design-decisions.md).
 

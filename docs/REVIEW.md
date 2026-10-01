@@ -254,12 +254,12 @@ Amish approved the FieldNode build plan format on 2026-09-30 and asked for it ac
 
 ### Key results
 
-- Mass 334 to 350 g (R16 limit 400 g); envelope below the lid 150 x 80 x 71.5 mm (was 61.5; limit 100); transducer face to floor 1,000 mm; parts $55.00 to $59.00 against the $60 budget ($1.00 margin); with the external antenna (O1) $67.00.
+- Mass 334 to 350 g (R16 limit 400 g); envelope below the lid 150 x 80 x 71.5 mm (was 61.5; limit 100); transducer face to floor 1,000 mm; parts $55.00 to $59.00 against the $60 value-engineering target ($1.00 under); with the external antenna (O1) $67.00.
 - Requirement status unchanged: not met 2 (R5 IP69K, R10 in steel containers), at risk 2 (R2, R6), not verifiable at TRL 3 2 (R7, R12), met 10.
 
 ### Proposed, awaiting Amish
 
-All in the design decisions register (`docs/06-design-decisions.md`): review of BNL-DDR-003; the $1.00 budget margin; the cell swap now needing the board lowered; O1 steel containers; O2 partner and region; galvanic isolation; route planner; fill-rate in the payload; the render choices of 2026-09-26.
+All in the design decisions register (`docs/06-design-decisions.md`): review of BNL-DDR-003; the value-engineering note on the $1.00 under the target; the cell swap now needing the board lowered; O1 steel containers; O2 partner and region; galvanic isolation; route planner; fill-rate in the payload; the render choices of 2026-09-26.
 
 ### Stale until regenerated on Amish's Mac
 

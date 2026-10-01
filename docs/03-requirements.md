@@ -3,9 +3,9 @@ doc_id: BNL-REQ-001
 title: BinLevel requirements
 project: BinLevel
 doc_type: Requirements
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-09-30'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,6 +29,10 @@ revisions:
   date: '2026-09-30'
   author: Amish Chadha
   change: Design for construction (BNL-DDR-003); R1, R14 and R16 figures updated from BNL-CAL-001 v0.3; no status changed
+- version: "0.6"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target
 ---
 
 # BinLevel requirements
@@ -52,7 +56,7 @@ Table 1. Requirements.
 | R11 | Protect privacy | No camera or microphone; payload limited to fill, distance, temperature, tilt, events and battery | Design review of BOM and payload | Met by design |
 | R12 | Install without wiring or tools beyond a drill | Fit to a lid in 10 min or less with four bolts or rivets; no cables | Timed trial at TRL 4 | Not verifiable at TRL 3: four through-bolts on a 130 x 60 mm pattern, no cables |
 | R13 | Resist casual tampering and theft | Mounted inside the lid; tamper-resistant fasteners | Design review | Met by design |
-| R14 | Low cost and buildable | Parts cost $60 or less per sensor at prototype quantities; no custom tooling | Priced BOM | Met: $59.00 (indicative, $1.00 margin, BNL-DDR-003); $67.00 with the external antenna option |
+| R14 | Low cost and buildable | Parts cost at or under the $60 value-engineering target per sensor at prototype quantities (a hypothetical control target); no custom tooling | Priced BOM | Within the value-engineering target: $59.00 (indicative, $1.00 under, BNL-DDR-003); $67.00 with the external antenna option ($7.00 over) |
 | R15 | Open and interoperable | Documented payload format and open decoder; works with any LoRaWAN network server | Documentation review | Met by design: candidate 11-byte layout in BNL-CAL-001 |
 | R16 | Light and compact | 400 g or less; no larger than 160 x 90 x 100 mm below the lid, including bracket | Mass calculation from the model, then weighing | Met: about 350 g with a 2 mm aluminium plate and the 55 mm box (DDR-003; 334 g before, 435 g with 1.5 mm stainless); 150 x 80 x 71.5 mm |
 

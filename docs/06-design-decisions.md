@@ -3,9 +3,9 @@ doc_id: BNL-DEC-001
 title: BinLevel design decisions register
 project: BinLevel
 doc_type: Design decisions register
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-09-30'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
     date: '2026-09-30'
     author: Amish Chadha
     change: Register opened with the open decisions from the review note, the decision records and the build plan work
+  - version: "0.2"
+    date: '2026-10-01'
+    author: Amish Chadha
+    change: Budget treated as a value-engineering target
 ---
 
 # BinLevel design decisions register
@@ -24,14 +28,13 @@ Every design decision still to be made, and every decision made, in one place. E
 | # | Decision needed | Options | Recommendation | Affects in the build | Source |
 | --- | --- | --- | --- | --- | --- |
 | 1 | Review the design-for-construction changes P1 to P11 (box on studs and standoffs, no tabs, M6 x 20 bolts, 55 mm box, prototyping board, printed sensor mounts, vent, plugs) | Accept; change any item | Accept | The whole build plan | BNL-DDR-003 |
-| 2 | Budget margin of $1.00 after the parts added for construction ($59.00 against $60) | (a) accept and confirm prices at TRL 4; (b) look for savings now, for example a cheaper generic box | (a) | Bill of materials | BNL-DDR-003, A1 |
-| 3 | Cell swap now means lowering the electronics board (four screws) after the cover is off | (a) accept, since the cell lasts about 16 years; (b) move the cell below the board, which needs a taller box | (a) | Steps 7 and 8 | BNL-DDR-003, A2 |
-| 4 | Steel containers | (a) external lid antenna variant (about $8, parts $67.00, over budget); (b) leave steel containers out of the first pilot | None made | Antenna and bracket; budget | BNL-DDR-001 and BNL-DDR-002, O1 |
-| 5 | First partner and region for co-design and a pilot | Partner and region; the region also sets the radio band (EU868, US915 or IN865) | None made | Radio module build and antenna band; whether IP67 is enough for the partner's washing practice | BNL-DDR-001 and BNL-DDR-002, O2 |
-| 6 | Galvanic isolation between the stainless bolts and studs and the aluminium plate | (a) anodised plate; (b) insulating washers and sleeves; (c) nothing for the prototype, decide for deployments | (c) for the prototype, (a) for deployments | Bracket plate finish | BNL-DDR-002, Consequences; review note 2026-09-25 |
-| 7 | Route planner and data layer for the pilot | TwinKit, a city system, or an open-source vehicle routing tool | None made | Not part of the TRL 3 build | BNL-PRC-001, open questions |
-| 8 | Whether the payload also carries a rolling fill-rate estimate | Add it in the spare byte; leave it to the server | None made | Firmware only; not part of the TRL 3 build | BNL-PRC-001, open questions |
-| 9 | Photoreal render choices: render pose turned 45° about the lid hinge, compact street bin as context, a device label with no BOM line | Accept each; change | Accept the pose and the street bin for renders only; add the label as a note under BOM line 1 if wanted | Renders only; the renders also need redrawing to the constructable design | Review note 2026-09-26, items 1, 2 and 7 |
+| 2 | Cell swap now means lowering the electronics board (four screws) after the cover is off | (a) accept, since the cell lasts about 16 years; (b) move the cell below the board, which needs a taller box | (a) | Steps 7 and 8 | BNL-DDR-003, A2 |
+| 3 | Steel containers | (a) external lid antenna variant (about $8, parts $67.00, $7.00 over the value-engineering target); (b) leave steel containers out of the first pilot | None made | Antenna and bracket; cost | BNL-DDR-001 and BNL-DDR-002, O1 |
+| 4 | First partner and region for co-design and a pilot | Partner and region; the region also sets the radio band (EU868, US915 or IN865) | None made | Radio module build and antenna band; whether IP67 is enough for the partner's washing practice | BNL-DDR-001 and BNL-DDR-002, O2 |
+| 5 | Galvanic isolation between the stainless bolts and studs and the aluminium plate | (a) anodised plate; (b) insulating washers and sleeves; (c) nothing for the prototype, decide for deployments | (c) for the prototype, (a) for deployments | Bracket plate finish | BNL-DDR-002, Consequences; review note 2026-09-25 |
+| 6 | Route planner and data layer for the pilot | TwinKit, a city system, or an open-source vehicle routing tool | None made | Not part of the TRL 3 build | BNL-PRC-001, open questions |
+| 7 | Whether the payload also carries a rolling fill-rate estimate | Add it in the spare byte; leave it to the server | None made | Firmware only; not part of the TRL 3 build | BNL-PRC-001, open questions |
+| 8 | Photoreal render choices: render pose turned 45° about the lid hinge, compact street bin as context, a device label with no BOM line | Accept each; change | Accept the pose and the street bin for renders only; add the label as a note under BOM line 1 if wanted | Renders only; the renders also need redrawing to the constructable design | Review note 2026-09-26, items 1, 2 and 7 |
 
 ## To confirm when parts are bought
 
@@ -43,6 +46,15 @@ Every design decision still to be made, and every decision made, in one place. E
 | 4 | The light sensor breakout's size, holes and sensor position (13 x 18 mm, sensor underneath, assumed) | Sets the holder pocket | BNL-DDR-003, P6 |
 | 5 | The press-in stud's hole size, minimum sheet thickness and push-out rating in 2 mm 5052 aluminium (4.2 mm and about 900 N assumed) | The plate holes and the fixing check | BNL-CAL-001, [J3] |
 | 6 | The cell holder takes a C cell with room for the strap slots | Cell retention at 20 g | BNL-CAL-001, [J2] |
+
+## Value engineering
+
+Value-engineering target: USD 60 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 59 (USD 1 under the target). Main cost drivers and savings worth trying:
+
+- The largest lines are the primary lithium cell and holder (USD 9), the LoRaWAN module (USD 9), the electronics board and small parts (USD 8), the ultrasonic transducer with driver (USD 7) and the enclosure (USD 6).
+- Making the design constructable (BNL-DDR-003) took the parts from USD 55 to USD 59, adding box fixings (USD 2.50) and printed sensor mounts and window (USD 1.50) and respecifying lines 1, 2, 3, 6, 7 and 9.
+- The external lid antenna for steel containers would add about USD 8 and bring the estimate to USD 67, USD 7 over the target.
+- Savings worth trying: confirm prices at TRL 4, and a cheaper generic box.
 
 ## Decisions made
 

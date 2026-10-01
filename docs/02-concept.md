@@ -3,9 +3,9 @@ doc_id: BNL-PRC-001
 title: BinLevel design precis
 project: BinLevel
 doc_type: Design precis
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-09-30'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,13 +29,17 @@ revisions:
   date: '2026-09-30'
   author: Amish Chadha
   change: Design for construction (BNL-DDR-003); 55 mm box, box fixings and printed sensor mounts added; mass, envelope and cost from BNL-CAL-001 v0.3
+- version: "0.6"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Budget treated as a value-engineering target
 ---
 
 # BinLevel design precis
 
 ## Summary
 
-BinLevel is a small sealed box bolted under the lid of a communal or public bin. Every 15 minutes it measures the distance down to the waste with a sealed ultrasonic transducer, backed by a time-of-flight (ToF) sensor for the top of the bin, and turns it into a fill percentage. It sends the level, temperature, tilt events and battery state by LoRaWAN every hour (every 2 hours at SF12), or at once when the bin passes a set level. A primary lithium C cell would last about 16 years in the worst radio case on paper, so seals and plastics, not the cell, set the 10-year design life. Parts cost is $59.00 (indicative), within the $60 budget, and the unit weighs about 350 g, inside the 400 g target (BNL-CAL-001). The design is constructable (BNL-DDR-003), and the prototype build plan BNL-BLD-001 shows how to build it. It carries no camera and no microphone.
+BinLevel is a small sealed box bolted under the lid of a communal or public bin. Every 15 minutes it measures the distance down to the waste with a sealed ultrasonic transducer, backed by a time-of-flight (ToF) sensor for the top of the bin, and turns it into a fill percentage. It sends the level, temperature, tilt events and battery state by LoRaWAN every hour (every 2 hours at SF12), or at once when the bin passes a set level. A primary lithium C cell would last about 16 years in the worst radio case on paper, so seals and plastics, not the cell, set the 10-year design life. Parts cost is $59.00 (indicative), within the $60 value-engineering target, and the unit weighs about 350 g, inside the 400 g target (BNL-CAL-001). The design is constructable (BNL-DDR-003), and the prototype build plan BNL-BLD-001 shows how to build it. It carries no camera and no microphone.
 
 ![Figure 1. BinLevel under the lid of an 1,100 L communal container, shown in section, with a 1.75 m person for scale. Concept, not for fabrication.](../media/hero.png)
 
@@ -114,7 +118,7 @@ With a 10 dB fade margin and an urban path-loss model, a sensor in an HDPE conta
 
 - Mass about 350 g: enclosure 94 g, 2 mm aluminium plate 63 g, bolts, nuts and washers 36 g, box fixings 22 g, cell, holder and strap 59 g, transducer, board, module, printed mounts and small parts about 76 g. This is inside the 400 g limit of R16. The 1.5 mm stainless bracket of BNL-PRC-001 v0.3 weighed 183 g and made the unit about 435 g; Amish chose the aluminium bracket on 2026-09-25 (DDR-002).
 - Envelope below the lid 150 x 80 x 71.5 mm.
-- Parts cost $59.00 at prototype quantities (indicative prices; see `bom/bom.csv`), inside the $60 budget. The gateway is shared across many bins and not included.
+- Parts cost $59.00 at prototype quantities (indicative prices; see `bom/bom.csv`), inside the $60 value-engineering target. The gateway is shared across many bins and not included.
 
 ## Key design choices (decided by Amish, 2026-09-25)
 
@@ -125,7 +129,7 @@ Each choice below was decided by Amish on 2026-09-25 (go with recommendation) an
 3. **Primary Li-SOCl2 C cell, not rechargeable or solar (D3).** No charging electronics, no panel to break on a tipped bin, and very low self-discharge.
 4. **LoRaWAN on an STM32WL-class module (D4).** The RAK3172 shares the radio core and firmware approach adopted for FieldNode, so decoders and gateway set-up are common. The RAK3172-T variant (-40 to 85 °C) is named for sites colder than -20 °C (DDR-002). NB-IoT would avoid gateways but needs a SIM subscription per bin.
 5. **Stock enclosure at TRL 2 to 3 (D9).** Keeps the build garage-friendly; a potted or IP69K design is a later option.
-6. **Relationship to FieldNode and TwinKit (D5).** BinLevel does not use the FieldNode enclosure, panel or LiFePO4 cell: at $126 the FieldNode core costs more than twice the BinLevel budget and would not fit under a lid. It reuses FieldNode's radio module family, payload conventions and decoder so both sit on the same TwinKit gateway.
+6. **Relationship to FieldNode and TwinKit (D5).** BinLevel does not use the FieldNode enclosure, panel or LiFePO4 cell: at $126 the FieldNode core costs more than twice the BinLevel value-engineering target and would not fit under a lid. It reuses FieldNode's radio module family, payload conventions and decoder so both sit on the same TwinKit gateway.
 7. **First target container (D1), thresholds (D6) and temperature alert (D7).** The 660 to 1,100 L communal container is the design case; the default fill threshold is 80 %, the routine interval 1 h (2 h at SF12 only, DDR-002), and the heat alert 70 °C or a 15 K rise in 15 min. BNL-CAL-001 found that the ungated rate-of-rise trigger could fire when sun breaks through cloud, so under DDR-002 the rise counts only above 50 °C; the requirement R6 upper limit is also raised to 70 °C to match hot dark lids.
 8. **Aluminium bracket (DDR-002).** A 2 mm 5052-class aluminium plate replaces 1.5 mm stainless, taking the unit from about 435 g to 334 g so that it meets R16 (350 g after the design for construction, BNL-DDR-003). The bolts stay stainless; galvanic isolation between them and the plate (anodizing or insulating washers) is a review suggestion, not yet applied.
 
