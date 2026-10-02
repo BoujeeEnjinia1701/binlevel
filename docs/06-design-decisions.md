@@ -3,9 +3,9 @@ doc_id: BNL-DEC-001
 title: BinLevel design decisions register
 project: BinLevel
 doc_type: Design decisions register
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,6 +17,10 @@ revisions:
     date: '2026-10-01'
     author: Amish Chadha
     change: Budget treated as a value-engineering target
+  - version: "0.3"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: Amish approved the recommendations for open decisions 1 to 8 (BNL-DDR-003 accepted); moved to decisions made
 ---
 
 # BinLevel design decisions register
@@ -25,16 +29,7 @@ Every design decision still to be made, and every decision made, in one place. E
 
 ## Open decisions
 
-| # | Decision needed | Options | Recommendation | Affects in the build | Source |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Review the design-for-construction changes P1 to P11 (box on studs and standoffs, no tabs, M6 x 20 bolts, 55 mm box, prototyping board, printed sensor mounts, vent, plugs) | Accept; change any item | Accept | The whole build plan | BNL-DDR-003 |
-| 2 | Cell swap now means lowering the electronics board (four screws) after the cover is off | (a) accept, since the cell lasts about 16 years; (b) move the cell below the board, which needs a taller box | (a) | Steps 7 and 8 | BNL-DDR-003, A2 |
-| 3 | Steel containers | (a) external lid antenna variant (about $8, parts $67.00, $7.00 over the value-engineering target); (b) leave steel containers out of the first pilot | None made | Antenna and bracket; cost | BNL-DDR-001 and BNL-DDR-002, O1 |
-| 4 | First partner and region for co-design and a pilot | Partner and region; the region also sets the radio band (EU868, US915 or IN865) | None made | Radio module build and antenna band; whether IP67 is enough for the partner's washing practice | BNL-DDR-001 and BNL-DDR-002, O2 |
-| 5 | Galvanic isolation between the stainless bolts and studs and the aluminium plate | (a) anodised plate; (b) insulating washers and sleeves; (c) nothing for the prototype, decide for deployments | (c) for the prototype, (a) for deployments | Bracket plate finish | BNL-DDR-002, Consequences; review note 2026-09-25 |
-| 6 | Route planner and data layer for the pilot | TwinKit, a city system, or an open-source vehicle routing tool | None made | Not part of the TRL 3 build | BNL-PRC-001, open questions |
-| 7 | Whether the payload also carries a rolling fill-rate estimate | Add it in the spare byte; leave it to the server | None made | Firmware only; not part of the TRL 3 build | BNL-PRC-001, open questions |
-| 8 | Photoreal render choices: render pose turned 45° about the lid hinge, compact street bin as context, a device label with no BOM line | Accept each; change | Accept the pose and the street bin for renders only; add the label as a note under BOM line 1 if wanted | Renders only; the renders also need redrawing to the constructable design | Review note 2026-09-26, items 1, 2 and 7 |
+None. All open decisions were decided on 2026-10-02.
 
 ## To confirm when parts are bought
 
@@ -53,7 +48,7 @@ Value-engineering target: USD 60 (a hypothetical control target, not a limit). E
 
 - The largest lines are the primary lithium cell and holder (USD 9), the LoRaWAN module (USD 9), the electronics board and small parts (USD 8), the ultrasonic transducer with driver (USD 7) and the enclosure (USD 6).
 - Making the design constructable (BNL-DDR-003) took the parts from USD 55 to USD 59, adding box fixings (USD 2.50) and printed sensor mounts and window (USD 1.50) and respecifying lines 1, 2, 3, 6, 7 and 9.
-- The external lid antenna for steel containers would add about USD 8 and bring the estimate to USD 67, USD 7 over the target.
+- The external lid antenna for steel containers would add about USD 8 and bring the estimate to USD 67, USD 7 over the target. Steel containers are left out of the first pilot (decided 2026-10-02), so it is not in the estimate.
 - Savings worth trying: confirm prices at TRL 4, and a cheaper generic box.
 
 ## Decisions made
@@ -62,4 +57,12 @@ Value-engineering target: USD 60 (a hypothetical control target, not a limit). E
 | --- | --- | --- | --- |
 | 2026-09-25 | TRL 2 review items D1 to D10: communal containers first, ultrasonic plus ToF, C cell, LoRaWAN on RAK3172, FieldNode and TwinKit reuse, 80 % and 1 h defaults, heat alert, lid mounting with four tamper bolts, stock IP67 box, no budget change | Amish: "i accept all your recommendations, go with them across all repos." | [BNL-DDR-001](decisions/0001-trl2-review-decisions.md), [BNL-DDR-002](decisions/0002-recommendations-accepted.md) |
 | 2026-09-25 | 2 mm 5052-class aluminium bracket; R6 upper limit 70 °C with the RAK3172-T for cold sites; heat rate rule counted only above 50 °C; 11-byte payload and 5 min temperature reads; 2 h interval at SF12 only; budget stays $60 | Amish, same instruction | [BNL-DDR-002](decisions/0002-recommendations-accepted.md), N1 to N6 |
-| 2026-09-30 | Design for construction: box held on four studs and standoffs, no tabs, M6 x 20 bolts, 55 mm box, prototyping board on standoffs, printed sensor mounts, vent, plugged sensor leads | Made under Amish's 2026-09-30 instruction to make the design physically buildable ("fix the design assumptions to match and be physically feasible"); open for his review (open decision 1) | [BNL-DDR-003](decisions/0003-design-for-construction.md) |
+| 2026-09-30 | Design for construction: box held on four studs and standoffs, no tabs, M6 x 20 bolts, 55 mm box, prototyping board on standoffs, printed sensor mounts, vent, plugged sensor leads | Made under Amish's 2026-09-30 instruction to make the design physically buildable ("fix the design assumptions to match and be physically feasible"); open for his review. The changes themselves were accepted on 2026-10-02 (below) | [BNL-DDR-003](decisions/0003-design-for-construction.md) |
+| 2026-10-02 | Design for construction accepted: the changes P1 to P11 (box on studs and standoffs, no tabs, M6 x 20 bolts, 55 mm box, prototyping board, printed sensor mounts, vent, plugs), as made | Amish: "i approve your recommendations for all 555 open decisions." | BNL-DDR-003 |
+| 2026-10-02 | Cell swap: accepted that a swap means lowering the electronics board on its four screws, since the cell lasts about 16 years | Amish: "i approve your recommendations for all 555 open decisions." | BNL-DDR-003, A2 |
+| 2026-10-02 | Steel containers are left out of the first pilot, which uses plastic containers only; the external lid antenna is revisited once the link loss inside a steel container has been measured | Amish: "i approve your recommendations for all 555 open decisions." | BNL-DDR-001 and BNL-DDR-002, O1 |
+| 2026-10-02 | First partner to approach: a municipal waste service or its contractor using EN 840 plastic communal containers in a city with public LoRaWAN coverage, by default a European city on the EU868 band; ask how the containers are washed before committing | Amish: "i approve your recommendations for all 555 open decisions." | BNL-DDR-001 and BNL-DDR-002, O2 |
+| 2026-10-02 | Galvanic isolation: nothing fitted for the prototype; for deployments the plate is anodised before the studs are pressed in | Amish: "i approve your recommendations for all 555 open decisions." | BNL-DDR-002, Consequences; review note 2026-09-25 |
+| 2026-10-02 | Pilot data layer: TwinKit, feeding a standard open-source vehicle routing tool; a city system only if the pilot partner already runs one | Amish: "i approve your recommendations for all 555 open decisions." | BNL-PRC-001, open questions |
+| 2026-10-02 | Fill-rate estimate: left to the server; the spare payload byte stays free | Amish: "i approve your recommendations for all 555 open decisions." | BNL-PRC-001, open questions |
+| 2026-10-02 | Renders: the 45 degree pose and the street bin accepted for renders only; the device label added as a note under BOM line 1; the renders are redrawn to the constructable design at the next render session | Amish: "i approve your recommendations for all 555 open decisions." | Review note 2026-09-26, items 1, 2 and 7 |

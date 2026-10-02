@@ -3,9 +3,9 @@ doc_id: BNL-PRB-001
 title: BinLevel problem statement
 project: BinLevel
 doc_type: Problem statement
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,6 +25,10 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.5"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: First partner to approach, steel containers out of the first pilot and pilot data layer, as decided on 2026-10-02 (BNL-DEC-001)
 ---
 
 # BinLevel problem statement
@@ -62,7 +66,7 @@ Where budgets are thin, collection coverage is low: the World Bank reports colle
 
 ## Out of scope
 
-- Route optimization software itself (BinLevel feeds an existing or open-source planner; the lab's TwinKit project is the proposed data layer).
+- Route optimization software itself (BinLevel feeds a standard open-source vehicle routing tool through the lab's TwinKit project as the data layer, or a city system if the pilot partner already runs one; decided 2026-10-02).
 - Compaction, bin redesign or collection vehicles.
 - Waste identification or sorting (that is the WasteWise family).
 - Certified fire detection. A temperature alert is a maintenance aid, not a safety system.
@@ -75,7 +79,7 @@ Where budgets are thin, collection coverage is low: the World Bank reports colle
 
 ## Open questions
 
-- [ ] Which container types and lid materials dominate in the first partner city? Steel containers block the radio if the antenna sits inside (BNL-CAL-001 gives about 0.35 km of range); the choice between an external antenna and excluding steel containers is open (BNL-DDR-001, O1).
+- [ ] Which container types and lid materials dominate in the first partner city? Steel containers block the radio if the antenna sits inside (BNL-CAL-001 gives about 0.35 km of range); steel containers are left out of the first pilot, which uses plastic containers only (decided by Amish, 2026-10-02; BNL-DDR-001, O1).
 - [x] Is an ultrasonic blind zone of about 0.25 m acceptable, or must the top 20 % of the bin be measured directly? Measured directly: the ToF sensor covers the top 0.4 m (BNL-DDR-001, D2; BNL-CAL-001, section A).
 - [ ] How are containers washed (hot pressure water needs IP69K-class sealing)?
 - [ ] Who owns the data and the gateway: the city, the contractor or a community group?
@@ -85,7 +89,7 @@ Where budgets are thin, collection coverage is low: the World Bank reports colle
 
 This design is for communities the author is not part of, so requirements come from the people who will use it.
 
-- [ ] Identify a local partner organization (Helpful Engineering network, NGO or university)
+- [ ] Identify a local partner organization. First candidate to approach (decided 2026-10-02, not yet agreed): a municipal waste service or its contractor using EN 840 plastic communal containers in a city with public LoRaWAN coverage, by default a European city on the EU868 band
 - [ ] Run co-design sessions with intended users; record who, where and what was learned
 - [ ] Validate load, distance, terrain and cost assumptions in the field
 - [ ] Revise requirements (REQ) from findings before freezing the design

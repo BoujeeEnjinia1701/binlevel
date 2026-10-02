@@ -57,7 +57,7 @@ Fixed collection schedules empty half-full bins while others overflow. Cities an
 
 A sealed box under the bin lid measures the distance to the waste every 15 minutes with an ultrasonic transducer, backed by a time-of-flight sensor for the top of the bin. It sends fill level, temperature, emptying events and battery state in an 11-byte LoRaWAN uplink every hour (every 2 hours at SF12), or at once when the bin passes a set level (default 80 %). A primary lithium C cell lasts about 16 years in the worst radio case on paper, so the 10-year design life is set by seals and plastics. Parts cost $59.00 (indicative), within the $60 value-engineering target; the unit weighs about 350 g, inside its 400 g target. No camera, no microphone.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing and radio inside steel containers) and those at risk (accuracy on real waste and hot lids): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions by Amish: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) and [docs/decisions/0002-recommendations-accepted.md](docs/decisions/0002-recommendations-accepted.md); design for construction, open for review: [docs/decisions/0003-design-for-construction.md](docs/decisions/0003-design-for-construction.md). Every open and made decision: [docs/06-design-decisions.md](docs/06-design-decisions.md).
+Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, including those not yet met (IP69K washing and radio inside steel containers) and those at risk (accuracy on real waste and hot lids): [docs/03-requirements.md](docs/03-requirements.md). Sizing calculations: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md). Decisions by Amish: [docs/decisions/0001-trl2-review-decisions.md](docs/decisions/0001-trl2-review-decisions.md) and [docs/decisions/0002-recommendations-accepted.md](docs/decisions/0002-recommendations-accepted.md); design for construction, accepted on 2026-10-02: [docs/decisions/0003-design-for-construction.md](docs/decisions/0003-design-for-construction.md). Every open and made decision: [docs/06-design-decisions.md](docs/06-design-decisions.md).
 
 ## Key components
 
@@ -67,7 +67,7 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md). Requirements, incl
 - RAK3172 (STM32WL) LoRaWAN module, the same radio family as FieldNode
 - Carrier board with accelerometer (emptying and lid events), temperature sensor and nanopower regulator
 - Li-SOCl2 C cell, multi-year life
-- Flexible antenna (external antenna for steel containers)
+- Flexible antenna inside the box; the first pilot uses plastic containers only, and an external lid antenna for steel containers is a later option
 
 The working bill of materials is in [bom/bom.csv](bom/bom.csv).
 

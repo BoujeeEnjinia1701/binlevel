@@ -3,9 +3,9 @@ doc_id: BNL-DDR-003
 title: BinLevel design for construction
 project: BinLevel
 doc_type: Design decision record
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,12 +17,16 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Budget treated as a value-engineering target
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: Accepted by Amish, including the recommendation for A2
 ---
 
 # 0003: Design for construction
 
 - **Date:** 2026-09-30
-- **Status:** Draft. Made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review. Nothing here changes what BinLevel does, its pitch or its safety case. The items in Table 3 are "Proposed, awaiting Amish".
+- **Status:** accepted. Amish, 2026-10-02: "i approve your recommendations for all 555 open decisions." This covers every change in Tables 1 and 2 and the recommendation for A2, now decided as recommended and recorded in the design decisions register (BNL-DEC-001). A1 is a value-engineering note, not a decision; it is carried in the register's Value engineering section. Made under Amish's 2026-09-30 instruction to make the design physically buildable. Nothing here changes what BinLevel does, its pitch or its safety case.
 
 ## Context
 
@@ -61,15 +65,16 @@ The changes keep what the unit does: the same sensing (ultrasonic plus ToF, same
 | Documents | BNL-CAL-001 v0.3, BNL-REQ-001 v0.5, BNL-PRC-001 v0.5: mass, envelope, geometry and cost figures updated. No requirement changed status. | Follows the model. |
 | Thermal and radio | Unchanged. The unit's assumed heat capacity (400 J/K) already covered about 0.4 kg; the antenna stays on the inner back wall. | |
 
-*Table 3. Proposed, awaiting Amish.*
+*Table 3. Items proposed for Amish; A2 accepted as recommended on 2026-10-02.*
 
 | # | Question | Options | Recommendation |
 | --- | --- | --- | --- |
 | A1 | Value engineering (a note, not a decision). The estimated cost is $59.00 against the $60 value-engineering target, $1.00 under. | (a) confirm prices at TRL 4; (b) look for savings now (for example a cheaper generic box). | (a). |
-| A2 | Swapping the cell now means lowering the electronics board (four screws) after the cover is off; the cell lasts about 16 years, so this is rare. | (a) accept; (b) move the cell below the board, which needs a taller box again. | (a). |
+| A2 | Swapping the cell now means lowering the electronics board (four screws) after the cover is off; the cell lasts about 16 years, so this is rare. | (a) accept; (b) move the cell below the board, which needs a taller box again. | (a). Accepted by Amish, 2026-10-02. |
 
 ## Consequences
 
+- With A2 accepted, a cell swap means lowering the electronics board on its four screws after the cover is off.
 - `design_state: constructable` in `project.yaml`. The build plan BNL-BLD-001 shows every component and step in pictures generated from the model (`cad/src/build_plan_media.py`).
 - Requirement status is unchanged: not met 2 (R5 IP69K, R10 in steel containers), at risk 2 (R2, R6), not verifiable at TRL 3 2 (R7, R12), met 10 (BNL-CAL-001 v0.3).
 - The photoreal renders (`media/render-*.png`), `media/card.png`, `media/social-preview.png` and the appearance model `cad/src/product_model.py` still show the concept: 45 mm box, end tabs and a full-size board. They need updating on Amish's Mac, where Blender is.

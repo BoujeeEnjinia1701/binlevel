@@ -3,9 +3,9 @@ doc_id: BNL-PRC-001
 title: BinLevel design precis
 project: BinLevel
 doc_type: Design precis
-version: "0.6"
+version: "0.7"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -33,6 +33,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Budget treated as a value-engineering target
+- version: "0.7"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Open decisions of 2026-10-02 carried in: steel containers out of the first pilot, galvanic isolation, data layer, fill rate left to the server, first partner to approach"
 ---
 
 # BinLevel design precis
@@ -66,7 +70,7 @@ Numbers match the exploded view (Figure 3) and `bom/bom.csv`. Main dimensions an
 | 5 | LoRaWAN module, RAK3172 (STM32WL) | Controller and radio in one module, as in FieldNode |
 | 6 | Carrier board with accelerometer, temperature sensor, nanopower regulator, load switch and buffer capacitor (a prototyping board with breakouts for the first prototype) | Joins the parts; powers sensors only while measuring; keeps the module below 3.6 V |
 | 7 | Li-SOCl2 primary cell, C size, 3.6 V, about 8.5 Ah nominal, with strapped holder and fuse | Multi-year energy store |
-| 8 | Flexible 868/915 MHz antenna | Radio antenna inside the enclosure (external option for steel bins) |
+| 8 | Flexible 868/915 MHz antenna | Radio antenna inside the enclosure (external lid antenna for steel bins is a later option; not in the first pilot) |
 | 9 | Gasket and vent membrane | Keeps water and condensation out |
 | 10 | Box fixings: four press-in studs in the plate, sealing washers and standoffs | Hold the box to the plate and carry the board |
 | 11 | Printed probe collar and ToF holder, window disc | Hold the sensors in the cover |
@@ -105,7 +109,7 @@ The payload is 11 bytes (it was 12 at TRL 2), so that it fits the 11-byte limit 
 
 ### Link
 
-With a 10 dB fade margin and an urban path-loss model, a sensor in an HDPE container reaches a gateway about 0.8 km away at SF9 and 1.3 km at SF12. Inside a steel container the range falls to about 0.35 km even at SF12; an external lid antenna restores 1.3 to 2.1 km. Whether to offer that antenna or to leave steel containers out of the first pilot is open (DDR-001, O1).
+With a 10 dB fade margin and an urban path-loss model, a sensor in an HDPE container reaches a gateway about 0.8 km away at SF9 and 1.3 km at SF12. Inside a steel container the range falls to about 0.35 km even at SF12; an external lid antenna restores 1.3 to 2.1 km. Steel containers are left out of the first pilot, which uses plastic containers only (decided by Amish, 2026-10-02; DDR-001, O1); the antenna is revisited once the link loss inside a steel container has been measured.
 
 ### Measurement
 
@@ -131,7 +135,7 @@ Each choice below was decided by Amish on 2026-09-25 (go with recommendation) an
 5. **Stock enclosure at TRL 2 to 3 (D9).** Keeps the build garage-friendly; a potted or IP69K design is a later option.
 6. **Relationship to FieldNode and TwinKit (D5).** BinLevel does not use the FieldNode enclosure, panel or LiFePO4 cell: at $126 the FieldNode core costs more than twice the BinLevel value-engineering target and would not fit under a lid. It reuses FieldNode's radio module family, payload conventions and decoder so both sit on the same TwinKit gateway.
 7. **First target container (D1), thresholds (D6) and temperature alert (D7).** The 660 to 1,100 L communal container is the design case; the default fill threshold is 80 %, the routine interval 1 h (2 h at SF12 only, DDR-002), and the heat alert 70 °C or a 15 K rise in 15 min. BNL-CAL-001 found that the ungated rate-of-rise trigger could fire when sun breaks through cloud, so under DDR-002 the rise counts only above 50 °C; the requirement R6 upper limit is also raised to 70 °C to match hot dark lids.
-8. **Aluminium bracket (DDR-002).** A 2 mm 5052-class aluminium plate replaces 1.5 mm stainless, taking the unit from about 435 g to 334 g so that it meets R16 (350 g after the design for construction, BNL-DDR-003). The bolts stay stainless; galvanic isolation between them and the plate (anodizing or insulating washers) is a review suggestion, not yet applied.
+8. **Aluminium bracket (DDR-002).** A 2 mm 5052-class aluminium plate replaces 1.5 mm stainless, taking the unit from about 435 g to 334 g so that it meets R16 (350 g after the design for construction, BNL-DDR-003). The bolts stay stainless; galvanic isolation between them and the plate: nothing is fitted for the prototype, and for deployments the plate is anodised before the studs are pressed in (decided by Amish, 2026-10-02).
 
 ## Safety
 
@@ -147,7 +151,7 @@ Each choice below was decided by Amish on 2026-09-25 (go with recommendation) an
 
 - [ ] Can a sealed low-cost transducer survive years of condensation and food acids, or is a potted industrial transducer needed?
 - [ ] Does the ToF window fog or foul too quickly to be useful? A heater is ruled out (a 20 mW heater would use 156 times the energy budget, BNL-CAL-001); is a hydrophobic coating or a wiper enough?
-- [ ] What is the real link loss inside HDPE and steel containers? BNL-CAL-001 assumes 10 dB and 30 dB; the steel-container choice is open (BNL-DDR-001, O1).
-- [ ] Is IP67 enough for the first partner's washing practice?
-- [ ] Which route planner and data layer should the pilot use (TwinKit, a city system or an open-source vehicle routing tool)?
-- [ ] Should the payload also carry a rolling fill-rate estimate so the planner can predict the full time?
+- [ ] What is the real link loss inside HDPE and steel containers? BNL-CAL-001 assumes 10 dB and 30 dB. Steel containers are left out of the first pilot until this is measured (decided 2026-10-02; BNL-DDR-001, O1).
+- [ ] Is IP67 enough for the first partner's washing practice? The first partner to approach is a municipal waste service or its contractor using EN 840 plastic communal containers in a city with public LoRaWAN coverage, by default a European city on EU868; its washing practice is asked before committing (decided 2026-10-02).
+- [x] Which route planner and data layer should the pilot use? TwinKit as the data layer, feeding a standard open-source vehicle routing tool; a city system only if the pilot partner already runs one (decided 2026-10-02).
+- [x] Should the payload also carry a rolling fill-rate estimate? No: the server estimates the fill rate from the history, and the spare payload byte stays free (decided 2026-10-02).

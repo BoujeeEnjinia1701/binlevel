@@ -3,9 +3,9 @@ doc_id: BNL-DDR-002
 title: BinLevel recommendations accepted
 project: BinLevel
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,12 +13,16 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Record Amish's acceptance of all recommendations and the changes made in the repo
+- version: "0.2"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: O1 and O2 decided by Amish on 2026-10-02 (recommendations approved, BNL-DEC-001)
 ---
 
 # 0002: Recommendations accepted
 
 - **Date:** 2026-09-25
-- **Status:** accepted. Every item below that carried a recommendation is "Decided by Amish, 2026-09-25: go with recommendation". Items without a recommendation remain "Proposed, awaiting Amish".
+- **Status:** accepted. Every item below that carried a recommendation is "Decided by Amish, 2026-09-25: go with recommendation". Items without a recommendation (O1, O2) were decided on 2026-10-02, when Amish approved the recommendations later written for them ("i approve your recommendations for all 555 open decisions."); see Table 2 and BNL-DEC-001.
 
 ## Context
 
@@ -38,12 +42,12 @@ On 2026-09-25 Amish wrote, in chat: "i accept all your recommendations, go with 
 | N5 | Reporting interval stretch (suggestion in BNL-CAL-001 v0.1) | Stretch the routine interval to 2 h at SF12 only; SF11 stays hourly (21.4 s a day, inside TTN's 30 s) | BNL-REQ-001 R3, BNL-PRC-001, BNL-CAL-001 section E, concept media key figures; worst-case battery life unchanged at 16.3 years |
 | N6 | Budget | No change was recommended | `budget_usd` stays $60; parts total stays $55.00 |
 
-*Table 2. Items still open.*
+*Table 2. Items left open on 2026-09-25, decided on 2026-10-02.*
 
 | # | Item | Status |
 | --- | --- | --- |
-| O1 | Steel containers: (a) external lid antenna variant (about $8, total $63.00, over budget) or (b) exclude steel containers from the first pilot. No recommendation was made. | Proposed, awaiting Amish |
-| O2 | First partner and region for co-design and a pilot; also sets the radio plan (EU868, US915 or IN865). No preference stated. | Proposed, awaiting Amish |
+| O1 | Steel containers: (a) external lid antenna variant (about $8, total $63.00, over budget) or (b) exclude steel containers from the first pilot. No recommendation was made. | Decided by Amish, 2026-10-02 (recommendation approved): (b), steel containers left out of the first pilot, which uses plastic containers only; the external lid antenna is revisited once the link loss inside a steel container has been measured (BNL-DEC-001) |
+| O2 | First partner and region for co-design and a pilot; also sets the radio plan (EU868, US915 or IN865). No preference stated. | Decided by Amish, 2026-10-02 (recommendation approved): first partner to approach is a municipal waste service or its contractor using EN 840 plastic communal containers in a city with public LoRaWAN coverage, by default a European city on EU868; washing practice asked before committing (BNL-DEC-001) |
 
 *Table 3. Decided but on hold or outside this repo.*
 

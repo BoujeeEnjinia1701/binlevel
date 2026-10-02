@@ -3,9 +3,9 @@ doc_id: BNL-BLD-001
 title: BinLevel prototype build plan
 project: BinLevel
 doc_type: Build plan
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-09-30'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
     date: '2026-09-30'
     author: Amish Chadha
     change: First build plan, with pictures by component and step; design made constructable (BNL-DDR-003)
+  - version: "0.2"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: BNL-DDR-003 accepted by Amish on 2026-10-02
 ---
 
 # BinLevel prototype build plan
@@ -31,7 +35,7 @@ The prototype is one BinLevel sensor unit and a short length of bin lid to bolt 
 
 ## 2. What changed to make it buildable
 
-The concept showed what the unit does; some of its parts could not be made or fixed as drawn. Each change below keeps what the unit does, and all of them are recorded in decision record BNL-DDR-003, open for Amish's review.
+The concept showed what the unit does; some of its parts could not be made or fixed as drawn. Each change below keeps what the unit does, and all of them are recorded in decision record BNL-DDR-003, accepted by Amish on 2026-10-02.
 
 *Table 1. Changes from the concept.*
 

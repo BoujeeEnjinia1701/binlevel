@@ -272,3 +272,44 @@ Unchanged hazards: the Li-SOCl2 cell (never charge, short or heat; the build pla
 ### Recommended next step
 
 Amish reviews BNL-DDR-003 and the register. TRL 4 (building and testing to the plan) stays on hold.
+
+## Session 2026-10-02: open decisions decided
+
+On 2026-10-02 Amish approved every recommendation written for the open decisions: "i approve your recommendations for all 555 open decisions." Nothing was built or tested; TRL 4 remains on hold.
+
+### Decisions recorded
+
+8 decisions moved from "Open decisions" to "Decisions made" in the design decisions register, dated 2026-10-02. Design for construction (BNL-DDR-003) accepted with its item A2; steel containers left out of the first pilot; a European municipal waste service on EU868 named as the first partner to approach; deployment plates anodised; TwinKit plus an open-source routing tool for the pilot; fill rate left to the server; render choices accepted.
+
+### Documents changed
+
+- `docs/01-problem.md` (BNL-PRB-001 v0.5)
+- `docs/02-concept.md` (BNL-PRC-001 v0.7)
+- `docs/03-requirements.md` (BNL-REQ-001 v0.7)
+- `docs/05-build-plan.md` (BNL-BLD-001 v0.2)
+- `docs/06-design-decisions.md` (BNL-DEC-001 v0.3)
+- `docs/decisions/0001-trl2-review-decisions.md` (BNL-DDR-001 v0.3)
+- `docs/decisions/0002-recommendations-accepted.md` (BNL-DDR-002 v0.2)
+- `docs/decisions/0003-design-for-construction.md` (BNL-DDR-003 v0.3)
+- `README.md` (not a controlled document)
+- `bom/bom-notes.md` (not a controlled document)
+- `docs/pdf/`: every controlled document re-rendered.
+
+### Follow-up actions to carry approved decisions into the design
+
+The model, drawings, build plan pictures, BOM quantities and prices, and calculations were not changed in this session. These actions carry the approved decisions into them:
+
+1. Decision 3 (calcs): BNL-CAL-001 sections F and K still call the external lid antenna "open item O1"; at the next re-run, say steel containers are left out of the first pilot (R10 status unchanged).
+2. Decision 5 (drawings): BNL-DWG-001 and making sketch of the bracket plate: add a finish note, "prototype: none; deployments: anodise before pressing in the studs".
+3. Decision 5 (bom): BOM line 2 description: add the deployment finish (anodised) when the BOM is next revised; no price change for the prototype.
+4. Decision 8 (pictures): Redraw the photoreal renders (render-hero, render-exploded, render-detail), card.png and social-preview.png from an updated cad/src/product_model.py at the next render session on Amish's Mac: 55 mm box, no end tabs, studs and prototyping board, 45 degree pose, street bin context.
+5. Decision 8 (bom): Device label: kept as a note under BOM line 1 (bom-notes.md); add it to the bom.csv line 1 description at the next BOM revision.
+6. Decision 6 (docs): When the firmware and server work starts (TRL 4), document the TwinKit to routing-tool interface; nothing to change at TRL 3.
+
+### Points found in the review
+
+Raised when the recommendations were written (2026-10-01) and not yet acted on:
+
+- Open decision 6 is largely settled already: the problem statement names TwinKit as the proposed data layer and decision D5 adopted TwinKit reuse.
+- BNL-DDR-002 and the older REVIEW sections still quote the steel-container variant at USD 63; the current figure is USD 67.
+- The photoreal renders, card and social preview still show the 45 mm box, end tabs and full-size board removed by BNL-DDR-003.

@@ -3,9 +3,9 @@ doc_id: BNL-REQ-001
 title: BinLevel requirements
 project: BinLevel
 doc_type: Requirements
-version: "0.6"
+version: "0.7"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -33,11 +33,15 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Budget treated as a value-engineering target
+- version: "0.7"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "R10 note: steel containers left out of the first pilot (decided 2026-10-02, BNL-DEC-001)"
 ---
 
 # BinLevel requirements
 
-These requirements are the TRL 3 design basis. The design choices behind them were decided by Amish on 2026-09-25 (go with recommendation; BNL-DDR-001 and BNL-DDR-002). Under DDR-002, R6's upper limit is raised from 60 to 70 °C, R9's rate-of-rise rule counts only above 50 °C, and R3's 2 h interval applies at SF12 only; no other target changed. Under BNL-DDR-003 (design for construction, 2026-09-30, open for Amish's review) the box grows to 55 mm and gains studs, standoffs and printed sensor mounts; the mass, envelope, geometry and cost figures below are updated and no requirement changed status. Status is from the sizing note BNL-CAL-001 v0.3, which checks each requirement against the parametric model: two are not met (R5, R10 in steel containers), two are at risk (R2, R6), two can only be settled by test (R7, R12) and ten are met (six by calculation, four by design). See the notes under Table 1.
+These requirements are the TRL 3 design basis. The design choices behind them were decided by Amish on 2026-09-25 (go with recommendation; BNL-DDR-001 and BNL-DDR-002). Under DDR-002, R6's upper limit is raised from 60 to 70 °C, R9's rate-of-rise rule counts only above 50 °C, and R3's 2 h interval applies at SF12 only; no other target changed. Under BNL-DDR-003 (design for construction, 2026-09-30, accepted by Amish on 2026-10-02) the box grows to 55 mm and gains studs, standoffs and printed sensor mounts; the mass, envelope, geometry and cost figures below are updated and no requirement changed status. Status is from the sizing note BNL-CAL-001 v0.3, which checks each requirement against the parametric model: two are not met (R5, R10 in steel containers), two are at risk (R2, R6), two can only be settled by test (R7, R12) and ten are met (six by calculation, four by design). See the notes under Table 1.
 
 Table 1. Requirements.
 
@@ -65,7 +69,7 @@ Notes on requirements not met or at risk:
 - **R2 at risk.** Ultrasonic echoes from bags, boxes and bulky items are uneven, and the waste surface is rarely flat. The mitigation is to take the median of several pings and to combine the two sensors, but accuracy on real waste is unknown until measured.
 - **R5 not met for IP69K.** A low-cost stock enclosure is typically rated IP67. Where containers are washed with hot pressure water, a sealed potted design or an IP69K enclosure is needed, which raises cost.
 - **R6 at risk.** The upper limit is now 70 °C (DDR-002), above the about 67 °C a dark lid reaches in hot sun, but the margin is only 3 K and the transducer's rating is unconfirmed. The RAK3172-T (-40 to 85 °C) is named for cold sites.
-- **R10 not met in steel containers.** An antenna inside a steel container loses about 30 dB (assumed). HDPE containers are fine within about 1 km of a gateway. The external antenna or the exclusion of steel containers is still open, awaiting Amish (DDR-001, O1).
+- **R10 not met in steel containers.** An antenna inside a steel container loses about 30 dB (assumed). HDPE containers are fine within about 1 km of a gateway. Amish decided on 2026-10-02 to leave steel containers out of the first pilot, which uses plastic containers only; the external lid antenna is revisited once the link loss inside a steel container has been measured (DDR-001, O1; BNL-DEC-001). R10 stays not met in steel containers.
 
 ## Assumptions
 
