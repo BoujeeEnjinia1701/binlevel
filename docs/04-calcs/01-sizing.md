@@ -3,9 +3,9 @@ doc_id: BNL-CAL-001
 title: BinLevel sizing calculations
 project: BinLevel
 doc_type: Calculation
-version: "0.4"
+version: "0.5"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -25,17 +25,21 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Budget treated as a value-engineering target
+- version: "0.5"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: Approved decisions of 2026-10-02 carried in; steel containers left out of the first pilot (sections F and K, no longer open item O1); deployment plates anodised (section I); script re-run, no requirement changes status
 ---
 
 # BinLevel sizing calculations
 
-On paper, BinLevel meets ten of its sixteen requirements (six by calculation and four by design), has two at risk, misses two and leaves two that only a test can settle. The two misses are R5 (the stock enclosure is IP67, not IP69K) and R10 in steel containers (an antenna inside a steel container loses the link beyond about 0.35 km; the choice of remedy is still open). The two at risk are accuracy on real waste (R2) and the climate range (R6: a dark lid reaches about 67 °C against the new 70 °C limit, and the transducer's rating is unconfirmed). Version 0.2 applies the recommendations Amish accepted on 2026-09-25 (BNL-DDR-002): a 2 mm aluminium bracket brings the unit from about 435 g to 334 g, so R16 is now met; R6's upper limit rises from 60 to 70 °C; the 15 K rate-of-rise heat trigger counts only above 50 °C, which removes the false alarm when sun breaks through cloud, so R9 is now met on paper; and the routine interval stretches to 2 h at SF12 only. Version 0.3 re-runs the geometry, mass, size, fixing and cost checks for the constructable design of BNL-DDR-003 (a 55 mm tall box held on four studs and standoffs, no tabs, shorter bolts and the parts added for construction): the unit is now about 350 g and 71.5 mm below the lid, still inside R16, parts cost $59.00 against $60, and no requirement changes status. Battery life is not a constraint: a C cell lasts about 16 years in the worst radio case. The calculations changed four details of the TRL 2 concept: the payload shrinks from 12 to 11 bytes so that it fits the slowest US915 data rate, the carrier gains a nanopower regulator because a fresh cell exceeds the module's 3.6 V limit, the temperature is read every 5 min so that the heat alert arrives within 15 min, and the cell is strapped rather than held by clips alone. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C3], is the line of that script's output that carries it.
+On paper, BinLevel meets ten of its sixteen requirements (six by calculation and four by design), has two at risk, misses two and leaves two that only a test can settle. The two misses are R5 (the stock enclosure is IP67, not IP69K) and R10 in steel containers (an antenna inside a steel container loses the link beyond about 0.35 km; steel containers are left out of the first pilot, decided by Amish on 2026-10-02, and the external lid antenna is revisited once the link loss inside a steel container has been measured). The two at risk are accuracy on real waste (R2) and the climate range (R6: a dark lid reaches about 67 °C against the new 70 °C limit, and the transducer's rating is unconfirmed). Version 0.2 applies the recommendations Amish accepted on 2026-09-25 (BNL-DDR-002): a 2 mm aluminium bracket brings the unit from about 435 g to 334 g, so R16 is now met; R6's upper limit rises from 60 to 70 °C; the 15 K rate-of-rise heat trigger counts only above 50 °C, which removes the false alarm when sun breaks through cloud, so R9 is now met on paper; and the routine interval stretches to 2 h at SF12 only. Version 0.3 re-runs the geometry, mass, size, fixing and cost checks for the constructable design of BNL-DDR-003 (a 55 mm tall box held on four studs and standoffs, no tabs, shorter bolts and the parts added for construction): the unit is now about 350 g and 71.5 mm below the lid, still inside R16, parts cost $59.00 against $60, and no requirement changes status. Version 0.5 carries in the decisions Amish made on 2026-10-02: steel containers are left out of the first pilot, so the external lid antenna is no longer an open item, and deployment plates are anodised; the script was re-run and no requirement changes status. Battery life is not a constraint: a C cell lasts about 16 years in the worst radio case. The calculations changed four details of the TRL 2 concept: the payload shrinks from 12 to 11 bytes so that it fits the slowest US915 data rate, the carrier gains a nanopower regulator because a fresh cell exceeds the module's 3.6 V limit, the temperature is read every 5 min so that the heat alert arrives within 15 min, and the cell is strapped rather than held by clips alone. Every number in this note is printed by `docs/04-calcs/sizing.py`; the tag in brackets, for example [C3], is the line of that script's output that carries it.
 
 > **Safety:** These are first-principles estimates for a paper proof of concept. The temperature alert is a maintenance aid and not fire detection. Nothing here replaces checks of the lithium cell's fusing and retention, or safe working practice around bins and collection vehicles. See BNL-PRC-001, Safety.
 
 ## Scope and method
 
-The note checks every requirement in BNL-REQ-001 v0.5 against the design in BNL-PRC-001 v0.5 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, `derived()` and part solids, so the container depth, sensor positions, bracket volume and envelope used here are the ones in the STEP files and in drawing BNL-DWG-001. The script also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`.
+The note checks every requirement in BNL-REQ-001 v0.7 against the design in BNL-PRC-001 v0.7 and the parametric model `cad/src/model.py`. The script imports the model's `PARAMS`, `derived()` and part solids, so the container depth, sensor positions, bracket volume and envelope used here are the ones in the STEP files and in drawing BNL-DWG-001. The script also reads `bom/bom.csv` and `budget_usd` in `project.yaml`. Run it from the repo root with `python docs/04-calcs/sizing.py`.
 
 The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with the sensor at the center of an HDPE lid, ranging every 15 min, reporting hourly (2 h at SF12 only, DDR-002) and on alerts (D6), on a LoRaWAN network with a TwinKit or public gateway (D4, D5).
 
@@ -131,7 +135,7 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 
 - Urban path loss at 1 km is 126.5 dB; gateway sensitivity is -129.5 dBm at SF9 and -137.0 dBm at SF12 [F1].
 - **Plastic containers** work to about 0.8 km at SF9 and 1.3 km at SF12 with a 10 dB fade margin. A pilot should place gateways within about 1 km of the containers, or accept SF12 and the 2 h interval.
-- **Steel containers with the internal antenna do not meet R10:** even at SF12 the range is only about 0.35 km. An external lid antenna restores 1.3 to 2.1 km (open item O1 in DDR-001).
+- **Steel containers with the internal antenna do not meet R10:** even at SF12 the range is only about 0.35 km. An external lid antenna would restore 1.3 to 2.1 km. Steel containers are left out of the first pilot, which uses plastic containers only (decided by Amish, 2026-10-02); the external antenna is revisited once the link loss inside a steel container has been measured. R10 stays not met for steel containers.
 
 ## G. Timing (R3, R9)
 
@@ -147,9 +151,9 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 
 ## I. Mass and size (R16)
 
-- **Mass.** Enclosure 94 g (base and cover, 55 mm tall), bracket plate 63 g (2.0 mm 5052-class aluminium, no tabs), electronics board 13 g, printed collar and ToF holder with the window 5 g, and bought-in parts 174 g (now including the box fixings, 22 g, and the shorter bolts, 36 g) give 350 g, inside R16's 400 g [I1]. **R16 is met.** Version 0.2 gave 334 g with the 45 mm box and tabs; version 0.1 used a 1.5 mm stainless bracket (unit 435 g). A 2.0 mm stainless plate would make the unit 473 g [I2].
+- **Mass.** Enclosure 94 g (base and cover, 55 mm tall), bracket plate 63 g (2.0 mm 5052-class aluminium, no tabs), electronics board 13 g, printed collar and ToF holder with the window 5 g, and bought-in parts 174 g (now including the box fixings, 22 g, and the shorter bolts, 36 g) give 349 g, about 350 g, inside R16's 400 g [I1]. **R16 is met.** Version 0.2 gave 334 g with the 45 mm box and tabs; version 0.1 used a 1.5 mm stainless bracket (unit 435 g). A 2.0 mm stainless plate would make the unit 473 g [I2].
 - **Size.** Below the lid the unit measures 150 x 80 x 71.5 mm (61.5 mm before the box grew 10 mm taller), inside the 160 x 90 x 100 mm limit [I3].
-- **Corrosion.** The bolts stay stainless. Stainless bolts through wet aluminium can corrode the aluminium around the holes; an anodized plate or insulating washers should be considered (review suggestion, not applied).
+- **Corrosion.** The bolts and studs stay stainless. Stainless fixings in wet aluminium can corrode the aluminium around the holes. Nothing is fitted for the prototype; for deployments the plate is anodised before the studs are pressed in (decided by Amish, 2026-10-02). Anodising adds no measurable mass.
 
 ## J. Shock and fixing (R7)
 
@@ -160,7 +164,8 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 ## K. Cost (R14)
 
 - All eleven BOM lines are priced; the parts total is $59.00 against the $60 value-engineering target (`budget_usd`), $1.00 under [K1]. Lines 10 (box fixings) and 11 (printed mounts and window) were added for construction (BNL-DDR-003). The design decisions register lists the cost drivers and savings worth trying.
-- An external lid antenna for steel containers (about $8, open item O1) would take the total to $67.00, $7.00 over the value-engineering target [K2].
+- An external lid antenna for steel containers (about $8) would take the total to $67.00, $7.00 over the value-engineering target [K2]. It is not in the BOM: steel containers are left out of the first pilot (decided by Amish, 2026-10-02).
+- The deployment finish on the bracket plate (anodised, decided 2026-10-02) is not priced for the prototype, which has no finish; line 2 is unchanged at $5.00.
 
 ## L. Results against every requirement
 
@@ -177,13 +182,13 @@ The design case is an 1,100 L four-wheel communal container (DDR-001, D1) with t
 | R7 | Lifting, tipping and lid slams | No loosening; IK08 | 69 N against 4,221 N per bolt (J1); 12 N per stud (J3) | Not verifiable at TRL 3 |
 | R8 | Emptying and lid events | Tip event with the next uplink | Accelerometer wake-on-motion | Met by design |
 | R9 | Heat warning | Alert within 15 min above 70 °C, or on a 15 K rise in 15 min counted only above 50 °C | 7.5 min with 5 min reads (G2); sun step starts at about 43 °C, below the gate (H3); 10.9 K above the gate (H4) | Met on paper (to be measured) |
-| R10 | Open LoRaWAN within radio rules | Class A; EU868, US915, IN865; duty cycle and 30 s/day | 20.8 s/day at SF12 (E4); 11 bytes fits US915 DR0 (E2); steel container 0.35 km (F2) | Not met (steel containers); met for HDPE |
+| R10 | Open LoRaWAN within radio rules | Class A; EU868, US915, IN865; duty cycle and 30 s/day | 20.8 s/day at SF12 (E4); 11 bytes fits US915 DR0 (E2); steel container 0.35 km (F2) | Not met (steel containers, left out of the first pilot); met for HDPE |
 | R11 | Privacy | No camera or microphone; limited payload | BOM and 11-byte layout (E) | Met by design |
 | R12 | Installation | 10 min or less, four bolts, no cables | Four through-bolts on a 130 x 60 mm pattern | Not verifiable at TRL 3 |
 | R13 | Tamper resistance | Inside the lid; tamper-resistant fasteners | Button-head tamper bolts from above | Met by design |
 | R14 | Cost | $60 value-engineering target | $59.00 (K1) | Met, within the target |
 | R15 | Open and interoperable | Documented payload; open decoder | Candidate layout in Section E; decoder shared with FieldNode (D5) | Met by design |
-| R16 | Mass and size | 400 g or less; within 160 x 90 x 100 mm below the lid | 350 g (I1); 150 x 80 x 71.5 mm (I3) | Met |
+| R16 | Mass and size | 400 g or less; within 160 x 90 x 100 mm below the lid | About 350 g (I1); 150 x 80 x 71.5 mm (I3) | Met |
 
 Summary: met 10 (R1, R3, R4, R9, R14, R16 by calculation; R8, R11, R13, R15 by design); at risk 2 (R2, R6); not met 2 (R5, R10 in steel containers); not verifiable at TRL 3, 2 (R7, R12). Version 0.1 had met 8, at risk 3 and not met 3.
 

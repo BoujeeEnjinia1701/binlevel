@@ -3,7 +3,7 @@ doc_id: BNL-BLD-001
 title: BinLevel prototype build plan
 project: BinLevel
 doc_type: Build plan
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
     date: '2026-10-02'
     author: Amish Chadha
     change: BNL-DDR-003 accepted by Amish on 2026-10-02
+  - version: "0.3"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: Plate finish for deployments (anodised) added to the plate step and making sketch BNL-DWG-101 Rev P2; general arrangement Rev P5; calculation note v0.5
 ---
 
 # BinLevel prototype build plan
@@ -74,6 +78,8 @@ Make and check each component before the assembly step that needs it. Sizes are 
 4. Stud holes: four 4.2 mm holes, 40 each side and 18 each side (80 x 36 apart). Check the hole size against the stud maker's data sheet before drilling.
 5. Deburr every hole on both faces.
 6. Press the four studs in from the top face, with an arbor press or a vice with smooth jaws, until each head sits flush with the top face.
+
+**Finish.** The prototype plate has no finish. A plate for a deployed unit is anodised after drilling and before the studs are pressed in, so that the stainless studs and bolts do not corrode the aluminium around the holes.
 
 **How it fits the parts next to it.**
 
@@ -390,8 +396,8 @@ Stop at each point. Carry on only when everything listed is true.
 
 - Model and constructability checks: `cad/src/model.py` (`python cad/src/model.py --check`); STEP and STL exports in `cad/step/` and `cad/stl/`.
 - Pictures: `cad/src/build_plan_media.py`, using `.kit/build_views.py`; written to `docs/05-build-plan/` and `cad/drawings/BNL-DWG-101` to `BNL-DWG-106`.
-- General arrangement: `cad/drawings/BNL-DWG-001.pdf`, Rev P4.
-- Calculations: `docs/04-calcs/01-sizing.md` (BNL-CAL-001 v0.3) and `docs/04-calcs/sizing.py`; geometry [A1] to [A3], mass and size [I1], [I3], fixing [J1] to [J3], cost [K1].
+- General arrangement: `cad/drawings/BNL-DWG-001.pdf`, Rev P5.
+- Calculations: `docs/04-calcs/01-sizing.md` (BNL-CAL-001 v0.5) and `docs/04-calcs/sizing.py`; geometry [A1] to [A3], mass and size [I1], [I3], fixing [J1] to [J3], cost [K1].
 - Bill of materials: `bom/bom.csv`.
 - Decisions: `docs/decisions/0003-design-for-construction.md` (BNL-DDR-003), with BNL-DDR-001 and BNL-DDR-002.
 - Requirements: `docs/03-requirements.md` (BNL-REQ-001 v0.5).

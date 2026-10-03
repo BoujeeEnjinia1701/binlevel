@@ -1,4 +1,4 @@
-"""BinLevel general arrangement sheet BNL-DWG-001, Rev P4 (TRL 3, constructable design, BNL-DDR-003).
+"""BinLevel general arrangement sheet BNL-DWG-001, Rev P5 (TRL 3, constructable design, BNL-DDR-003; plate finish of 2026-10-02).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/BNL-DWG-001.svg, .pdf and .png from the parametric model in
@@ -15,6 +15,7 @@ from drawing import Sheet, _viewbox, _t, M, TB_Y, INK, MUTED  # noqa: E402
 from model import PARAMS as P, assembly, derived  # noqa: E402
 
 DATE = "2026-09-30"
+DATE5 = "2026-10-02"
 DATE0 = "2026-09-25"
 
 
@@ -96,13 +97,14 @@ def main():
     views = safe_project_views(asm, work)
     views["iso"] = safe_project_views(assembly(with_lid=False), work / "below", iso_below=True)["iso"]
     bb = asm.bounding_box()
-    s = Sheet(project="BinLevel", title="General arrangement, sensor unit under lid", dwg_no="BNL-DWG-001", rev="P4",
-              author="Amish Chadha", date=DATE, scale=None, theme="technical",
+    s = Sheet(project="BinLevel", title="General arrangement, sensor unit under lid", dwg_no="BNL-DWG-001", rev="P5",
+              author="Amish Chadha", date=DATE5, scale=None, theme="technical",
               material="ABS or PC box; 5052 aluminium plate; stainless bolts and studs; bought-in parts per bom/bom.csv. PRELIMINARY, NOT FOR FABRICATION",
               revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE0, "AC"),
                          ("P2", "2 mm aluminium bracket; mass note (DDR-002)", DATE0, "AC"),
                          ("P3", "Layout and labels tidied", DATE0, "AC"),
-                         ("P4", "Constructable design: tabs removed, studs, 55 mm box (DDR-003)", DATE, "AC")])
+                         ("P4", "Constructable design: tabs removed, studs, 55 mm box (DDR-003)", DATE, "AC"),
+                         ("P5", "Plate finish note added (decided 2026-10-02)", DATE5, "AC")])
     s.add_ortho(views)
     k = s.scale
     c = ortho_cells(s, views)
@@ -160,12 +162,13 @@ def main():
     s.add_notes("Main dimensions and interfaces (mm)", [
         f"Enclosure IP67 {ew:.0f} x {ed:.0f} x {eh:.0f}, wall {P['enc_wall']}; cover {P['split_z']:.0f} deep, faces down",
         f"Plate {pw:.0f} x {pd:.0f} x {P['plate_t']} 5052 aluminium; box on 4 M4 studs at {2 * P['stud_xy'][0]:.0f} x {2 * P['stud_xy'][1]:.0f}",
+        "Plate finish: prototype none; deployments anodise before pressing in the studs",
         f"4 x M6 x {P['bolt_len']:.0f} tamper bolts on {bpx:.0f} x {bpy:.0f}; 18 washers; lid {P['lid_t']:.0f} HDPE",
         f"Envelope below lid {D['footprint'][0]:.0f} x {D['footprint'][1]:.0f} x {D['below_lid']:.1f} (R16: 160 x 90 x 100)",
         f"Transducer {P['us_d']:.0f} dia at X {P['us_x']:.0f}, face {P['us_protrude']} below box; hole {P['us_hole_d']:.0f}",
         f"ToF window {P['win_d']:.0f} dia at X +{P['tof_x']:.0f}; C cell {P['cell_d']} x {P['cell_len']:.0f} strapped",
         f"1,100 L container: face to floor {D['face_to_floor']:,.0f}; mount at lid center",
-        "Mass about 350 g (BNL-CAL-001 v0.3, I1)",
+        "Mass about 350 g (BNL-CAL-001 v0.5, I1)",
         "Third-angle; front view from -Y; box bottom face at Z = 0",
     ], x=276, y=158, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "BNL-DWG-001")

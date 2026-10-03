@@ -350,8 +350,10 @@ with open(ROOT / "bom" / "bom.csv", newline="") as f:
     rows = list(csv.DictReader(f))
 for r in rows:
     total += float(r["qty"]) * float(r["unit_cost_usd"])
-tag("K1", f"{len(rows)} BOM lines, all priced; parts total ${total:.2f} against budget_usd ${budget:.0f}: "
-          f"{'within' if total <= budget else 'OVER'} by ${abs(budget - total):.2f}")
+tag("K1", f"{len(rows)} BOM lines, all priced; parts total ${total:.2f} against the value-engineering target (budget_usd) ${budget:.0f}: "
+          f"${abs(budget - total):.2f} {'under' if total <= budget else 'over'}")
 ext_ant = 8.0
-tag("K2", f"with the external lid antenna for steel containers (about ${ext_ant:.0f}, open item O1) the total is "
-          f"${total + ext_ant:.2f}, {'over' if total + ext_ant > budget else 'within'} budget")
+tag("K2", f"with the external lid antenna for steel containers (about ${ext_ant:.0f}; not in the BOM, because steel "
+          f"containers are left out of the first pilot, decided 2026-10-02) the total would be "
+          f"${total + ext_ant:.2f}, {'over' if total + ext_ant > budget else 'within'} the value-engineering target by "
+          f"${abs(total + ext_ant - budget):.2f}")

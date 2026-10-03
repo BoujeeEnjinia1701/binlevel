@@ -99,8 +99,9 @@ def overview():
 
 
 # ----------------------------------------------------------------- making sketches
-def sheets():
+def sheets(only=None):
     import build123d as b
+    want = lambda n: not only or n in only  # noqa: E731
     M = made()
     base = dict(project="BinLevel", date=DATE)
     out = []
@@ -108,9 +109,11 @@ def sheets():
     bpx, bpy = P["bolt_pitch"]
 
     # 101 bracket plate
-    out.append(bv.component_sheet(
+    want(101) and out.append(bv.component_sheet(
         Part("Bracket plate", S("plate", "studs"), COL["plate"]), [M["base"], M["bolts"]],
-        dwg_no="BNL-DWG-101", title="BinLevel bracket plate: making sketch",
+        dwg_no="BNL-DWG-101", title="BinLevel bracket plate: making sketch", rev="P2",
+        revisions=[("P1", "Making sketch for the prototype build plan", DATE, "AC"),
+                   ("P2", "Finish note added (decided 2026-10-02)", "2026-10-02", "AC")],
         material="Aluminium sheet 2 mm, 5052 class; four M4 x 12 flush-head press-in studs",
         view_shape=b.Pos(0, 0, -EH) * S("plate", "studs"), inset_view=(-25, -55),
         notes=["Blank 150 x 80 mm, 2 mm 5052 aluminium, square. Round the corners",
@@ -125,11 +128,13 @@ def sheets():
                "  press or a vice with smooth jaws, until the heads sit flush.",
                "Fit: top face flat on the lid underside; the box base sits flat",
                "  on the lower face, the studs through its floor.",
-               "Check: studs square to the plate, heads flush, none turns by hand."],
-        **base))
+               "Check: studs square to the plate, heads flush, none turns by hand.",
+               "Finish: prototype, none. Deployments: anodise before pressing",
+               "  in the studs."],
+        **dict(base, date="2026-10-02")))
 
     # 102 enclosure base, drilled
-    out.append(bv.component_sheet(
+    want(102) and out.append(bv.component_sheet(
         Part("Enclosure base", C["base"].shape, COL["base"]), [M["plate"], M["fix"], M["board"], M["cover"]],
         dwg_no="BNL-DWG-102", title="BinLevel enclosure base: drilling sketch",
         material="Bought IP67 ABS or PC box 115 x 65 x 55 mm (base part)",
@@ -149,7 +154,7 @@ def sheets():
 
     # 103 enclosure cover, drilled, drawn upside down so the top view shows the outside of the floor
     flip = b.Rot(0, 0, 180) * b.Rot(180, 0, 0) * b.Pos(0, 0, -P["split_z"] / 2) * C["cover"].shape
-    out.append(bv.component_sheet(
+    want(103) and out.append(bv.component_sheet(
         Part("Enclosure cover", C["cover"].shape, COL["cover"]), [M["base"], M["probe"], M["tof_holder"], M["collar"], M["vent"]],
         dwg_no="BNL-DWG-103", title="BinLevel enclosure cover: drilling sketch",
         material="Bought IP67 ABS or PC box 115 x 65 x 55 mm (cover part)",
@@ -170,7 +175,7 @@ def sheets():
         **base))
 
     # 104 electronics board
-    out.append(bv.component_sheet(
+    want(104) and out.append(bv.component_sheet(
         Part("Electronics board", C["board"].shape, COL["board"]), [M["base"], M["fix"], M["parts"], M["driver"], M["cell"]],
         dwg_no="BNL-DWG-104", title="BinLevel electronics board: making sketch",
         material="Perforated prototyping board, FR-4, 1.6 mm, 2.54 mm pitch",
@@ -192,7 +197,7 @@ def sheets():
 
     # 105 probe collar
     ux = P["us_x"]
-    out.append(bv.component_sheet(
+    want(105) and out.append(bv.component_sheet(
         Part("Probe collar", C["collar"].shape, COL["collar"]), [M["cover"], M["probe"]],
         dwg_no="BNL-DWG-105", title="BinLevel probe collar: making sketch",
         material="ASA, 3D printed, 100 % infill",
@@ -213,7 +218,7 @@ def sheets():
 
     # 106 ToF holder (with the window disc)
     tx = P["tof_x"]
-    out.append(bv.component_sheet(
+    want(106) and out.append(bv.component_sheet(
         Part("ToF holder", C["tof_holder"].shape, COL["tof_holder"]), [M["cover"], M["window"], M["tof"]],
         dwg_no="BNL-DWG-106", title="BinLevel ToF holder and window: making sketch",
         material="ASA, 3D printed; window 16 mm x 1.5 mm PMMA or glass",

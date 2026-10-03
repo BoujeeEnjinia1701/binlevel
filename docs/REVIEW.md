@@ -313,3 +313,64 @@ Raised when the recommendations were written (2026-10-01) and not yet acted on:
 - Open decision 6 is largely settled already: the problem statement names TwinKit as the proposed data layer and decision D5 adopted TwinKit reuse.
 - BNL-DDR-002 and the older REVIEW sections still quote the steel-container variant at USD 63; the current figure is USD 67.
 - The photoreal renders, card and social preview still show the 45 mm box, end tabs and full-size board removed by BNL-DDR-003.
+
+## Session 2026-10-02: approved follow-ups carried out
+
+On 2026-10-02 Amish approved carrying out every follow-up action from the open-decision sign-off ("APPROVED CHANGES, COMPLETE THESE") and preparing the render scenes for the photoreal renders on his Mac. Nothing was built or tested; TRL 4 remains on hold.
+
+### Follow-ups carried out
+
+1. **Decision 3 (calcs): done.** BNL-CAL-001 sections F and K no longer call the external lid antenna "open item O1"; they say steel containers are left out of the first pilot and the antenna is revisited once the link loss inside a steel container has been measured. The script's [K2] line now prints the same wording. R10 status unchanged (not met in steel containers; met for HDPE). Section I's corrosion paragraph now records the decided finish. `docs/04-calcs/sizing.py` re-run.
+2. **Decision 5 (drawings): done.** Finish note "prototype: none; deployments: anodise before pressing in the studs" added to BNL-DWG-001 (Rev P5) and to the bracket plate making sketch BNL-DWG-101 (Rev P2). The build plan's bracket plate step (section 3.1) gains a matching "Finish" paragraph.
+3. **Decision 5 (BOM): done.** BOM line 2 description now states the finish (none for the prototype, anodised before the studs are pressed in for deployments); price unchanged at $5.00.
+4. **Decision 8 (pictures): scenes prepared; renders not made here.** `cad/src/product_model.py` rebuilt to the constructable design (55 mm box, no end tabs, four studs with standoffs and sealing washers, prototyping board with breakouts, driver board, printed collar and ToF holder, vent in the cover floor), 45 degree pose and street bin context kept. Render scenes exported to `/home/claude/renders/binlevel` (hero, exploded, detail). The photoreal renders, `media/card.png` and `media/social-preview.png` are redrawn on Amish's Mac next.
+5. **Decision 8 (BOM): done.** The device label is now in the BOM line 1 description; no separate line and no price change. `bom/bom-notes.md` updated to match.
+6. **Decision 6 (docs): not done, by design.** The TwinKit to routing-tool interface is documented when the firmware and server work starts at TRL 4; nothing to change at TRL 3.
+
+Also tidied while carrying these in: BOM line 8 note no longer calls the steel-container antenna "open item O1"; `bom/bom-notes.md` gave the aluminium plate as 83 g (the tabbed plate) and now gives 63 g; the unused `tab` parameter was removed from `cad/src/model.py` now that the appearance model has no tabs.
+
+### Documents and files changed
+
+- `docs/04-calcs/01-sizing.md` (BNL-CAL-001 v0.4 to v0.5) and `docs/04-calcs/sizing.py`
+- `docs/05-build-plan.md` (BNL-BLD-001 v0.2 to v0.3)
+- `cad/drawings/BNL-DWG-001` Rev P4 to P5 (`cad/src/sheets.py`); `cad/drawings/BNL-DWG-101` Rev P1 to P2 (`cad/src/build_plan_media.py`, which can now draw one sketch, for example `sheets 101`)
+- `bom/bom.csv` (lines 1, 2 and 8) and `bom/bom-notes.md`
+- `cad/src/model.py` (`tab` parameter removed; no geometry change); STEP and STL re-exported; constructability checks 192 passed, 0 failed
+- `cad/src/product_model.py` (appearance model rebuilt from `build_components()`)
+- `cad/src/concept_media.py` (key figure cites BNL-CAL-001 v0.5); concept media regenerated
+- `docs/pdf/`: every controlled document re-rendered
+
+### Key results
+
+- No requirement changes status: met 10, at risk 2 (R2, R6), not met 2 (R5 IP69K; R10 in steel containers, which are left out of the first pilot), not verifiable at TRL 3 2 (R7, R12).
+- Cost: value-engineering target USD 60; estimated cost of the constructable design USD 59 (USD 1 under the target). With the external lid antenna for steel containers it would be USD 67. `budget_usd` unchanged.
+- Mass: the script now prints 349 g ([I1]; 350 g before from rounding of the same geometry), about 350 g, inside R16's 400 g. Envelope below the lid 150 x 80 x 71.5 mm.
+
+### Appearance model: differences from model.py (Proposed, awaiting Amish)
+
+Every part except those listed is the solid from `build_components()` in `cad/src/model.py`.
+
+1. Rounded vertical corners on the box (6 mm) and on the plate (3 mm, as on BNL-DWG-101). Recommendation: accept for renders.
+2. A face ring on the probe, the bolt heads with pin-hex sockets and filleted tops, and the LoRaWAN module drawn as breakout, shield can and header pins. Recommendation: accept for renders.
+3. The device label with a QR code and teal band on the front of the base (now in the BOM line 1 description). The prototyping board is drawn plain, without its hole grid, to keep the meshes light. Recommendation: accept.
+4. The hinge height of the context lid now follows the lid underside in `model.py`, so the taller box sits correctly in the street bin. Recommendation: accept.
+
+### Cross-repo actions
+
+- TwinKit: at TRL 4, document the interface from TwinKit to the open-source routing tool used for the pilot (decision 6). Nothing to change at TRL 3, and no other repo was edited.
+
+### Still open from the review points
+
+- BNL-DDR-002 and the older REVIEW sections still quote the steel-container variant at USD 63; the current figure is USD 67. Left unchanged, because they are historical records; suggestion: add a note to BNL-DDR-002 at its next revision.
+
+### Safety
+
+Unchanged: the Li-SOCl2 cell (never charge, short or heat it); sharps and biological waste in bins; truck lifting gear; the heat alert is not fire detection; ASA printing, epoxy and silicone need ventilation.
+
+### Recommended next step
+
+Render the three views from `/home/claude/renders/binlevel` on Amish's Mac, caption them, and run `python .kit/cards.py .`. TRL 4 stays on hold.
+
+## 2026-10-02: photoreal renders redone on the constructable design
+
+Rendered with Blender Cycles on Amish's Mac from the updated appearance model (`cad/src/product_model.py`); captioned with `.kit/photo_caption.py`; `media/card.png` and `media/social-preview.png` regenerated with `.kit/cards.py`. Views: hero, exploded, detail. image_qc passes. Appearance deviations are those logged above as proposed, awaiting Amish.

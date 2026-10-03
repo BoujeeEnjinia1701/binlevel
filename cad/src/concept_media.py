@@ -74,7 +74,7 @@ render_all(
                  "Reading every 15 min; uplink every 1 h (2 h at SF12), or at once on 80 %",
                  "LoRaWAN Class A, 11-byte payload; fill, temperature, tilt, battery only",
                  "Li-SOCl2 C cell: 16 years worst case (SF12) on paper; 10-year design life",
-                 "About 350 g and $59 in parts (BNL-CAL-001 v0.3)"],
+                 "About 350 g and $59 in parts (BNL-CAL-001 v0.5)"],
     scale_figure=False, context=context,
     flow={"title": "data flow (estimates; fill level only, no images or audio)", "unit": "",
           "stages": [("Waste surface", "0 to 1.00 m below face"), ("Ranging", "echo + ToF, 15 min"),

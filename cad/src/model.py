@@ -42,9 +42,6 @@ PARAMS = {
     #   M4 bonded sealing washers and M4 x 30 hex standoffs inside (DDR-003 P1)
     "stud_xy": (40.0, 18.0), "stud_d": 4.0, "stud_len": 12.0, "stud_hole_d": 4.2,
     "bseal": (9.0, 1.5), "standoff_af": 7.0, "standoff_len": 30.0,
-    # "tab" is kept only for the concept appearance model (cad/src/product_model.py); the buildable
-    # design has no tabs (DDR-003 P1)
-    "tab": (60.0, 30.0),
     # 3 ultrasonic transducer (JSN-SR04T class): position on X, body diameter, length, protrusion below the box
     "us_x": -35.0, "us_d": 24.0, "us_len": 24.0, "us_protrude": 14.5, "us_hole_d": 25.0,
     #   printed probe collar bonded inside the cover (flange OD and thickness, tube OD, height)
